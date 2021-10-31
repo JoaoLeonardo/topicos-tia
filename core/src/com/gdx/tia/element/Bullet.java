@@ -1,7 +1,6 @@
-package com.gdx.tia.elements;
+package com.gdx.tia.element;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.enums.Direction;
@@ -15,14 +14,10 @@ public class Bullet implements Pool.Poolable {
 
     public boolean active;
 
-    public static Texture texture;
-
     public Bullet() {
         position = new Vector2();
         movementDirection = Direction.RIGHT.displacementVector;
         active = false;
-
-        if (texture == null) texture = new Texture("bullet.png");
     }
 
     public void init(float initialX, float initialY) {

@@ -1,29 +1,32 @@
-package com.gdx.tia.elements;
+package com.gdx.tia.processor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.tia.controller.AgentController;
 import com.gdx.tia.enums.Direction;
 
-public class Agent implements InputProcessor {
+public class AgentProcessor implements InputProcessor {
 
     private final int MOVEMENT_SPEED = 4;
     private final int MAXIMUM_X = Gdx.graphics.getWidth() - 32;
     private final int MAXIMUM_Y = Gdx.graphics.getHeight() - 32;
 
-    private Vector2 movementDirection;
+    private final AgentController agentController;
 
+    private Vector2 movementDirection;
     private final Vector2 position;
 
-    Direction mouseDirection;
+    private Direction mouseDirection;
 
-    private World currentWorld;
+    private Sound getGunshotFx() { return agentController.getCurrentStage().assetManager.get("gunshot.ogg"); }
 
-    public Agent(int initialX, int initialY, World world) {
-        position = new Vector2(initialX, initialY);
-        movementDirection = Direction.HALT.displacementVector;
-        currentWorld = world;
+    public AgentProcessor(int initialX, int initialY, AgentController agentController) {
+        this.position = new Vector2(initialX, initialY);
+        this.movementDirection = Direction.HALT.displacementVector;
+        this.agentController = agentController;
     }
 
     public Vector2 getPosition() { return position; }
@@ -32,10 +35,6 @@ public class Agent implements InputProcessor {
         position.add(movementDirection);
         if (!isOnScreenX()) position.x = position.x > 0 ? MAXIMUM_X : 0;
         if (!isOnScreenY()) position.y = position.y > 0 ? MAXIMUM_Y : 0;
-    }
-
-    public void shoot() {
-        currentWorld.addBullet(position);
     }
 
     @Override
@@ -81,23 +80,9 @@ public class Agent implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (Input.Buttons.LEFT == button) this.shoot();
+        if (Input.Buttons.LEFT == button)
+            agentController.getBulletController().addActiveBullet(position, getGunshotFx());
         return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
     }
 
     @Override
@@ -116,6 +101,21 @@ public class Agent implements InputProcessor {
 
         mouseDirection = Direction.getDirectionByDisplacement(diffVector);
         return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
     }
 
     @Override
