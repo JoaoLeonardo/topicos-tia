@@ -11,7 +11,7 @@ import com.gdx.tia.enums.Direction;
 public class AgentProcessor implements InputProcessor {
 
     private final int MOVEMENT_SPEED = 4;
-    private final int MAXIMUM_X = Gdx.graphics.getWidth() - 32;
+    private final int MAXIMUM_X = Gdx.graphics.getWidth() - 24;
     private final int MAXIMUM_Y = Gdx.graphics.getHeight() - 32;
 
     private final AgentController agentController;
@@ -81,7 +81,7 @@ public class AgentProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (Input.Buttons.LEFT == button)
-            agentController.getBulletController().addActiveBullet(position, getGunshotFx());
+            agentController.getBulletController().addActiveBullet(position, mouseDirection, getGunshotFx());
         return true;
     }
 
@@ -100,13 +100,12 @@ public class AgentProcessor implements InputProcessor {
         );
 
         mouseDirection = Direction.getDirectionByDisplacement(diffVector);
+        agentController.setAgentSprite(mouseDirection.name());
         return true;
     }
 
     @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
+    public boolean keyTyped(char character) { return false; }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {

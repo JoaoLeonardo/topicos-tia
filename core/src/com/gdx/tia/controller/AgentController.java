@@ -2,15 +2,20 @@ package com.gdx.tia.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gdx.tia.element.World;
+import com.gdx.tia.enums.Direction;
 import com.gdx.tia.processor.AgentProcessor;
 
 public class AgentController implements ActionController {
 
     private final World currentStage;
     private final BulletController bulletController;
+
+    private TextureAtlas agentAtlas;
+    private Sprite agentSprite;
 
     private AgentProcessor agentProcessor;
 
@@ -24,8 +29,10 @@ public class AgentController implements ActionController {
         agentProcessor = new AgentProcessor(0, 0, this);
         Gdx.input.setInputProcessor(agentProcessor);
 
-        currentStage.assetManager.load("agent.png", Texture.class);
         currentStage.assetManager.load("gunshot.ogg", Sound.class);
+
+        agentAtlas = new TextureAtlas("agent.txt");
+        setAgentSprite(Direction.RIGHT.name());
     }
 
     @Override
@@ -35,7 +42,7 @@ public class AgentController implements ActionController {
 
         // Desenha o frame do agente
         batch.draw(
-                currentStage.assetManager.get("agent.png", Texture.class),
+                agentSprite,
                 agentProcessor.getPosition().x,
                 agentProcessor.getPosition().y
         );
@@ -44,5 +51,13 @@ public class AgentController implements ActionController {
     public World getCurrentStage() { return currentStage; }
 
     public BulletController getBulletController() { return bulletController; }
+
+    public Sprite getAgentRegion() { return agentSprite; }
+
+    public void setAgentSprite(String region) { agentSprite = agentAtlas.createSprite(region); }
+
+    public void dispose() {
+        agentAtlas.dispose();
+    }
 
 }

@@ -9,9 +9,9 @@ public class Bullet implements Pool.Poolable {
 
     private final int MOVEMENT_SPEED = 8;
 
-    private final Vector2 movementDirection;
     private final Vector2 position;
 
+    private Vector2 movementDirection;
     public boolean active;
 
     public Bullet() {
@@ -20,9 +20,11 @@ public class Bullet implements Pool.Poolable {
         active = false;
     }
 
-    public void init(float initialX, float initialY) {
+    public void init(float initialX, float initialY, Direction direction) {
         position.set(initialX, initialY);
         active = true;
+        if (Direction.HALT.equals(direction)) direction = Direction.RIGHT;
+        movementDirection = direction.displacementVector;
     }
 
     public Vector2 getPosition() {
@@ -30,16 +32,17 @@ public class Bullet implements Pool.Poolable {
     }
 
     public boolean isOnScreen() {
-        return 0 <= position.x && position.x <= Gdx.graphics.getWidth() &&
-               0 <= position.y && position.y <= Gdx.graphics.getHeight();
+        return (0 <= position.x && position.x <= Gdx.graphics.getWidth()) &&
+               (0 <= position.y && position.y <= Gdx.graphics.getHeight());
     }
 
-    public void update() {
+    public boolean update() {
         if (isOnScreen()) {
             position.add(movementDirection.x * MOVEMENT_SPEED, movementDirection.y * MOVEMENT_SPEED);
         } else {
             active = false;
         }
+        return active;
     }
 
     @Override

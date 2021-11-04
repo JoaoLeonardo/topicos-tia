@@ -29,6 +29,7 @@ public class Stage extends World {
     @Override
     public void dispose() {
         assetManager.dispose();
+        agentController.dispose();
     }
 
 }

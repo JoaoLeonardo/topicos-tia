@@ -24,6 +24,6 @@ public enum Direction {
         for (Direction direction : values()) {
             if (direction.displacementVector.equals(displacement)) return direction;
         }
-        return null;
+        return Direction.HALT;
     }
 }

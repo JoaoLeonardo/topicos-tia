@@ -3,11 +3,11 @@ package com.gdx.tia.controller;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.element.Bullet;
 import com.gdx.tia.element.World;
+import com.gdx.tia.enums.Direction;
 
 import java.util.ArrayList;
 
@@ -39,15 +39,15 @@ public class BulletController implements ActionController {
     @Override
     public void drawElements(Batch batch) {
         for (Bullet activeBullet : activeBullets) {
-            activeBullet.update();
-            batch.draw(getBulletTexture(), activeBullet.getPosition().x, activeBullet.getPosition().y);
+            if (activeBullet.update())
+                batch.draw(getBulletTexture(), activeBullet.getPosition().x, activeBullet.getPosition().y);
         }
     }
 
-    public void addActiveBullet(Vector2 origin, Sound sound) {
+    public void addActiveBullet(Vector2 origin, Direction direction, Sound sound) {
         // adiciona uma bala na lista de balas ativas
         Bullet freshBullet = bulletPool.obtain();
-        freshBullet.init(origin.x, origin.y);
+        freshBullet.init(origin.x, origin.y, direction);
         activeBullets.add(freshBullet);
 
         // toca o efeito de tiro
@@ -73,7 +73,7 @@ public class BulletController implements ActionController {
 
     public void playVfx(Sound sound) {
         long id = sound.play(0.1f);
-        sound.setLooping(id,false);
+        sound.setLooping(id, false);
     }
 
 }
