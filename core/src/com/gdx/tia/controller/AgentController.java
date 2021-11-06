@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.gdx.tia.element.Agent;
 import com.gdx.tia.element.World;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.processor.AgentProcessor;
@@ -19,9 +20,12 @@ public class AgentController implements ActionController {
 
     private AgentProcessor agentProcessor;
 
+    private Agent agent;
+
     public AgentController(World currentStage, BulletController bulletController) {
         this.currentStage = currentStage;
         this.bulletController = bulletController;
+        agent = new Agent();
     }
 
     @Override
@@ -39,20 +43,15 @@ public class AgentController implements ActionController {
     public void drawElements(Batch batch) {
         // Atualiza a posição do agente
         agentProcessor.update();
-
         // Desenha o frame do agente
-        batch.draw(
-                agentSprite,
-                agentProcessor.getPosition().x,
-                agentProcessor.getPosition().y
-        );
+        agentSprite.draw(batch);
     }
 
     public World getCurrentStage() { return currentStage; }
 
     public BulletController getBulletController() { return bulletController; }
 
-    public Sprite getAgentRegion() { return agentSprite; }
+    public Sprite getAgentSprite() { return agentSprite; }
 
     public void setAgentSprite(String region) { agentSprite = agentAtlas.createSprite(region); }
 

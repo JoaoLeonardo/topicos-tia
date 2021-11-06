@@ -4,9 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.tia.element.World;
 import com.gdx.tia.element.Loadbar;
 import com.gdx.tia.element.Stage;
-import com.gdx.tia.element.World;
 
 // TODO LIST:
 // - Câmera: Fixar no personagem (se mexer o x do agente, mexer da câmera também)

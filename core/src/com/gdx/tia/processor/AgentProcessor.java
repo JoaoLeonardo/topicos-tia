@@ -14,9 +14,13 @@ public class AgentProcessor implements InputProcessor {
     private final int MAXIMUM_X = Gdx.graphics.getWidth() - 24;
     private final int MAXIMUM_Y = Gdx.graphics.getHeight() - 32;
 
+    // espaço entre uma direção e outra (de 30 à -30)
+    private final int SENSITIVITY_X = 30;
+    private final int SENSITIVITY_Y = 30;
+
     private final AgentController agentController;
 
-    private Vector2 movementDirection;
+    private final Vector2 movementDirection;
     private final Vector2 position;
 
     private Direction mouseDirection;
@@ -25,26 +29,25 @@ public class AgentProcessor implements InputProcessor {
 
     public AgentProcessor(int initialX, int initialY, AgentController agentController) {
         this.position = new Vector2(initialX, initialY);
-        this.movementDirection = Direction.HALT.displacementVector;
+        this.movementDirection = new Vector2(Direction.HALT.displacementVector);
         this.agentController = agentController;
     }
-
-    public Vector2 getPosition() { return position; }
 
     public void update() {
         position.add(movementDirection);
         if (!isOnScreenX()) position.x = position.x > 0 ? MAXIMUM_X : 0;
         if (!isOnScreenY()) position.y = position.y > 0 ? MAXIMUM_Y : 0;
+        agentController.getAgentSprite().setPosition(position.x, position.y);
     }
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
-            case Input.Keys.W: this.movementDirection.y = MOVEMENT_SPEED; break; // UP
-            case Input.Keys.A: this.movementDirection.x = -MOVEMENT_SPEED; break; // LEFT
-            case Input.Keys.S: this.movementDirection.y = -MOVEMENT_SPEED; break; // DOWN
-            case Input.Keys.D: this.movementDirection.x = MOVEMENT_SPEED; break; // RIGHT
-            default: position.add(Direction.HALT.displacementVector); break; // NONE
+            case Input.Keys.W: movementDirection.y = MOVEMENT_SPEED; break; // UP
+            case Input.Keys.A: movementDirection.x = -MOVEMENT_SPEED; break; // LEFT
+            case Input.Keys.S: movementDirection.y = -MOVEMENT_SPEED; break; // DOWN
+            case Input.Keys.D: movementDirection.x = MOVEMENT_SPEED; break; // RIGHT
+            default: this.position.add(Direction.HALT.displacementVector); break; // NONE
         }
         return true;
     }
@@ -53,16 +56,16 @@ public class AgentProcessor implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                if (this.movementDirection.y == MOVEMENT_SPEED) this.movementDirection.y = 0;
+                if (movementDirection.y == MOVEMENT_SPEED) movementDirection.y = 0;
                 break;
             case Input.Keys.A:
-                if (this.movementDirection.x == -MOVEMENT_SPEED) this.movementDirection.x = 0;
+                if (movementDirection.x == -MOVEMENT_SPEED) movementDirection.x = 0;
                 break;
             case Input.Keys.S:
-                if (this.movementDirection.y == -MOVEMENT_SPEED) this.movementDirection.y = 0;
+                if (movementDirection.y == -MOVEMENT_SPEED) movementDirection.y = 0;
                 break;
             case Input.Keys.D:
-                if (this.movementDirection.x == MOVEMENT_SPEED) this.movementDirection.x = 0;
+                if (movementDirection.x == MOVEMENT_SPEED) movementDirection.x = 0;
                 break;
             default:
                 break;
@@ -90,13 +93,9 @@ public class AgentProcessor implements InputProcessor {
         final float xDiff = screenX - position.x;
         final float yDiff = (Gdx.graphics.getHeight() - screenY) - position.y;
 
-        // espaço entre uma direção e outra (de 30 à -30)
-        final int xSensitivity = 30;
-        final int ySensitivity = 30;
-
         Vector2 diffVector = new Vector2(
-                xDiff > xSensitivity ? 1 : (xDiff < -xSensitivity ? -1 : 0),
-                yDiff > ySensitivity ? 1 : (yDiff < -ySensitivity ? -1 : 0)
+                xDiff > SENSITIVITY_X ? 1 : (xDiff < -SENSITIVITY_X ? -1 : 0),
+                yDiff > SENSITIVITY_Y ? 1 : (yDiff < -SENSITIVITY_Y ? -1 : 0)
         );
 
         mouseDirection = Direction.getDirectionByDisplacement(diffVector);
