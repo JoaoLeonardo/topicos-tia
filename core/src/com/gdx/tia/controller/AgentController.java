@@ -30,7 +30,10 @@ public class AgentController implements ActionController {
 
     @Override
     public void create() {
-        agentProcessor = new AgentProcessor(0, 0, this);
+        int xCenter = (int) currentStage.getViewportCenter().x;
+        int yCenter = (int) currentStage.getViewportCenter().y;
+
+        agentProcessor = new AgentProcessor(xCenter, yCenter, this);
         Gdx.input.setInputProcessor(agentProcessor);
 
         currentStage.assetManager.load("gunshot.ogg", Sound.class);
@@ -47,13 +50,21 @@ public class AgentController implements ActionController {
         agentSprite.draw(batch);
     }
 
-    public World getCurrentStage() { return currentStage; }
+    public World getCurrentStage() {
+        return currentStage;
+    }
 
-    public BulletController getBulletController() { return bulletController; }
+    public BulletController getBulletController() {
+        return bulletController;
+    }
 
-    public Sprite getAgentSprite() { return agentSprite; }
+    public Sprite getAgentSprite() {
+        return agentSprite;
+    }
 
-    public void setAgentSprite(String region) { agentSprite = agentAtlas.createSprite(region); }
+    public void setAgentSprite(String region) {
+        agentSprite = agentAtlas.createSprite(region);
+    }
 
     public void dispose() {
         agentAtlas.dispose();

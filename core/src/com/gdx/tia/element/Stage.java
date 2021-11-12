@@ -1,9 +1,12 @@
 package com.gdx.tia.element;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.controller.AgentController;
 import com.gdx.tia.controller.BulletController;
 import com.gdx.tia.controller.EnemyController;
+import com.gdx.tia.screens.GameScreen;
 
 public class Stage extends World {
 
@@ -11,8 +14,13 @@ public class Stage extends World {
     BulletController bulletController;
     EnemyController enemyControllerController;
 
-    public Stage(AssetManager assetManager) {
-        super(assetManager);
+    public Stage(Batch batch, AssetManager assetManager, GameScreen gameScreen) {
+        super(batch, assetManager, gameScreen);
+    }
+
+    @Override
+    public Vector2 getPlayerPosition() {
+        return new Vector2(agentController.getAgentSprite().getX(), agentController.getAgentSprite().getY());
     }
 
     @Override

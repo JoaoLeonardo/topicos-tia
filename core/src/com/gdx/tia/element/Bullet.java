@@ -7,7 +7,7 @@ import com.gdx.tia.enums.Direction;
 
 public class Bullet implements Pool.Poolable {
 
-    private final int MOVEMENT_SPEED = 8;
+    private final int MOVEMENT_SPEED = 400;
 
     private final Vector2 position;
 
@@ -31,17 +31,20 @@ public class Bullet implements Pool.Poolable {
         return position;
     }
 
-    public boolean isOnScreen() {
+    public boolean isOnScreen() { // TODO: Verificar de acordo com o mapa
         return (0 <= position.x && position.x <= Gdx.graphics.getWidth()) &&
-               (0 <= position.y && position.y <= Gdx.graphics.getHeight());
+                (0 <= position.y && position.y <= Gdx.graphics.getHeight());
     }
 
     public boolean update() {
-        if (isOnScreen()) {
-            position.add(movementDirection.x * MOVEMENT_SPEED, movementDirection.y * MOVEMENT_SPEED);
-        } else {
+        // if (isOnScreen()) {
+            position.add(
+                    movementDirection.x * MOVEMENT_SPEED * Gdx.graphics.getDeltaTime(),
+                    movementDirection.y * MOVEMENT_SPEED * Gdx.graphics.getDeltaTime()
+            );
+        /*} else {
             active = false;
-        }
+        }*/
         return active;
     }
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class EnemyController implements ActionController {
 
-    private final int MAX_WAVE_LENGTH = 6;
+    private final int MAX_WAVE_LENGTH = 8;
 
     private final World currentStage;
 
