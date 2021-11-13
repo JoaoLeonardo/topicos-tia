@@ -1,8 +1,10 @@
 package com.gdx.tia.element;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.enums.Direction;
 
 public class Bullet implements Pool.Poolable {
@@ -21,14 +23,11 @@ public class Bullet implements Pool.Poolable {
     }
 
     public void init(float initialX, float initialY, Direction direction) {
-        position.set(initialX, initialY);
         active = true;
+        position.set(initialX + 6, initialY + 16); // + 6 pra cima, + 2 para baixo
+
         if (Direction.HALT.equals(direction)) direction = Direction.RIGHT;
         movementDirection = direction.displacementVector;
-    }
-
-    public Vector2 getPosition() {
-        return position;
     }
 
     public boolean isOnScreen() { // TODO: Verificar de acordo com o mapa
@@ -52,6 +51,14 @@ public class Bullet implements Pool.Poolable {
     public void reset() {
         position.set(0, 0);
         active = false;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public static Texture getTexture() {
+        return TacticalInfiltrationAction.assetManager.get("bullet.png", Texture.class);
     }
 
 }

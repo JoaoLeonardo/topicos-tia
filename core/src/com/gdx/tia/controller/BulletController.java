@@ -1,21 +1,17 @@
 package com.gdx.tia.controller;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.element.Bullet;
-import com.gdx.tia.element.World;
 import com.gdx.tia.enums.Direction;
 
 import java.util.ArrayList;
 
 public class BulletController implements ActionController {
 
-    private final World currentWorld;
-
-    private final ArrayList<Bullet> activeBullets = new ArrayList<>();
+    private ArrayList<Bullet> activeBullets;
     private final Pool<Bullet> bulletPool = new Pool<Bullet>() {
         @Override
         protected Bullet newObject() {
@@ -23,24 +19,16 @@ public class BulletController implements ActionController {
         }
     };
 
-    public ArrayList<Bullet> getActiveBullets() { return activeBullets; }
-
-    private Texture getBulletTexture() { return currentWorld.assetManager.get("bullet.png", Texture.class); }
-
-    public BulletController(World currentWorld) {
-        this.currentWorld = currentWorld;
-    }
-
     @Override
     public void create() {
-        currentWorld.assetManager.load("bullet.png", Texture.class);
+        activeBullets = new ArrayList<>();
     }
 
     @Override
     public void drawElements(Batch batch) {
         for (Bullet activeBullet : activeBullets) {
             if (activeBullet.update())
-                batch.draw(getBulletTexture(), activeBullet.getPosition().x, activeBullet.getPosition().y);
+                batch.draw(Bullet.getTexture(), activeBullet.getPosition().x, activeBullet.getPosition().y);
         }
     }
 

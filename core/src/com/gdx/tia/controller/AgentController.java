@@ -1,7 +1,6 @@
 package com.gdx.tia.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -36,17 +35,15 @@ public class AgentController implements ActionController {
         agentProcessor = new AgentProcessor(xCenter, yCenter, this);
         Gdx.input.setInputProcessor(agentProcessor);
 
-        currentStage.assetManager.load("gunshot.ogg", Sound.class);
-
         agentAtlas = new TextureAtlas("agent.txt");
         setAgentSprite(Direction.RIGHT.name());
     }
 
     @Override
     public void drawElements(Batch batch) {
-        // Atualiza a posição do agente
+        // atualiza a posição do agente
         agentProcessor.update();
-        // Desenha o frame do agente
+        // desenha o frame do agente
         agentSprite.draw(batch);
     }
 

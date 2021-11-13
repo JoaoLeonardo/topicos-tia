@@ -1,6 +1,5 @@
 package com.gdx.tia.element;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.controller.AgentController;
@@ -14,8 +13,8 @@ public class Stage extends World {
     BulletController bulletController;
     EnemyController enemyControllerController;
 
-    public Stage(Batch batch, AssetManager assetManager, GameScreen gameScreen) {
-        super(batch, assetManager, gameScreen);
+    public Stage(Batch batch, GameScreen gameScreen) {
+        super(batch, gameScreen);
     }
 
     @Override
@@ -27,7 +26,7 @@ public class Stage extends World {
     public void create() {
         super.create();
 
-        bulletController = new BulletController(this);
+        bulletController = new BulletController();
         agentController = new AgentController(this, bulletController);
         enemyControllerController = new EnemyController(this, agentController);
 

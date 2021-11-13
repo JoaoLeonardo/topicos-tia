@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.controller.AgentController;
 import com.gdx.tia.enums.Direction;
 
@@ -14,7 +15,7 @@ public class AgentProcessor implements InputProcessor {
     private final int MAXIMUM_X = Gdx.graphics.getWidth() - 24;
     private final int MAXIMUM_Y = Gdx.graphics.getHeight() - 32;
 
-    // espaço entre uma direção e outra (de 30 à -30)
+    // espaço entre uma direção e outra (de 32 à -32)
     private final int SENSITIVITY_X = 32;
     private final int SENSITIVITY_Y = 32;
 
@@ -24,8 +25,6 @@ public class AgentProcessor implements InputProcessor {
     private final Vector2 position;
 
     private Direction mouseDirection;
-
-    private Sound getGunshotFx() { return agentController.getCurrentStage().assetManager.get("gunshot.ogg"); }
 
     public AgentProcessor(int initialX, int initialY, AgentController agentController) {
         this.position = new Vector2(initialX, initialY);
@@ -114,5 +113,7 @@ public class AgentProcessor implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+
+    private Sound getGunshotFx() { return TacticalInfiltrationAction.assetManager.get("gunshot.ogg"); }
 
 }
