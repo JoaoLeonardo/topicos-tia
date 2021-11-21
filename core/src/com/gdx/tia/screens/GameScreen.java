@@ -96,6 +96,7 @@ public class GameScreen implements Screen {
         long id = theme.play(0.1f);
         theme.setLooping(id, true);
     }
+
     private void loadAssets() {
         TacticalInfiltrationAction.assetManager.load("gunshot.ogg", Sound.class);
         TacticalInfiltrationAction.assetManager.load("stage-music.ogg", Sound.class);
