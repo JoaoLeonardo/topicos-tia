@@ -1,5 +1,5 @@
-menu-sheet.png
-size: 396, 150
+ui-sheet.png
+size: 428, 150
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -17,9 +17,16 @@ button
   orig: 48, 24
   offset: 0, 0
   index: -1
-menu-painted
+heart
   rotate: false
   xy: 96, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+menu-painted
+  rotate: false
+  xy: 128, 0
   size: 300, 150
   orig: 300, 150
   offset: 0, 0

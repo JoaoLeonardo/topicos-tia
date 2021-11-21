@@ -7,7 +7,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.controller.AgentController;
+import com.gdx.tia.element.World;
 import com.gdx.tia.enums.Direction;
+import com.gdx.tia.screens.GameScreen;
 
 public class AgentProcessor implements InputProcessor {
 
@@ -83,8 +85,8 @@ public class AgentProcessor implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        final float xCenter = agentController.getCurrentStage().getViewportCenter().x;
-        final float yCenter = agentController.getCurrentStage().getViewportCenter().y;
+        final float xCenter = GameScreen.ref.getScreenCenter().x;
+        final float yCenter = GameScreen.ref.getScreenCenter().y;
 
         Vector2 diffVector = new Vector2(
                 screenX > (xCenter + SENSITIVITY_X) ? 1 : (screenX < (xCenter - SENSITIVITY_X) ? -1 : 0),

@@ -5,32 +5,32 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gdx.tia.element.Agent;
-import com.gdx.tia.element.World;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.processor.AgentProcessor;
+import com.gdx.tia.screens.GameScreen;
 
 public class AgentController implements ActionController {
 
-    private final World currentStage;
+    public static AgentController ref;
+
     private final BulletController bulletController;
 
     private TextureAtlas agentAtlas;
     private Sprite agentSprite;
 
     private AgentProcessor agentProcessor;
-
     private Agent agent;
 
-    public AgentController(World currentStage, BulletController bulletController) {
-        this.currentStage = currentStage;
+    public AgentController(BulletController bulletController) {
         this.bulletController = bulletController;
         agent = new Agent();
+        ref = this;
     }
 
     @Override
     public void create() {
-        int xCenter = (int) currentStage.getViewportCenter().x;
-        int yCenter = (int) currentStage.getViewportCenter().y;
+        int xCenter = (int) GameScreen.ref.getScreenCenter().x;
+        int yCenter = (int) GameScreen.ref.getScreenCenter().y;
 
         agentProcessor = new AgentProcessor(xCenter, yCenter, this);
         Gdx.input.setInputProcessor(agentProcessor);
@@ -47,13 +47,11 @@ public class AgentController implements ActionController {
         agentSprite.draw(batch);
     }
 
-    public World getCurrentStage() {
-        return currentStage;
-    }
-
     public BulletController getBulletController() {
         return bulletController;
     }
+
+    public Agent getAgent() { return agent; }
 
     public Sprite getAgentSprite() {
         return agentSprite;

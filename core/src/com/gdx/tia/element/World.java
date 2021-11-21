@@ -1,18 +1,20 @@
 package com.gdx.tia.element;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.controller.ActionController;
 import com.gdx.tia.screens.GameScreen;
+import com.gdx.tia.screens.LoadingScreen;
+import com.gdx.tia.screens.MainMenuScreen;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class World implements ApplicationListener {
+
+    public static World currentStage;
 
     private Batch batch;
 
@@ -27,6 +29,7 @@ public abstract class World implements ApplicationListener {
 
     @Override
     public void create() {
+        currentStage = this;
         actionControllerList = new ArrayList<>();
     }
 
@@ -55,12 +58,10 @@ public abstract class World implements ApplicationListener {
     }
 
     public void complete() {
+        TacticalInfiltrationAction.ref.setScreen(new LoadingScreen(MainMenuScreen.ref));
         dispose();
-        // TODO: chamar menu
     }
 
-    public GameScreen getGameScreen() { return gameScreen; }
-    public Vector2 getViewportCenter() { return gameScreen.getScreenCenter(); }
     public abstract Vector2 getPlayerPosition();
 
 }

@@ -8,12 +8,15 @@ import com.gdx.tia.screens.MainMenuScreen;
 
 public class TacticalInfiltrationAction extends Game {
 
+    public static TacticalInfiltrationAction ref;
+
     public static AssetManager assetManager;
 
     @Override
     public void create() {
+        ref = this;
         assetManager = new AssetManager();
-        setScreen(new LoadingScreen(this, new MainMenuScreen(this)));
+        setScreen(new LoadingScreen(new MainMenuScreen()));
     }
 
     public void changeScreen(Screen newScreen) {

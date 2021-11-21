@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -20,26 +19,27 @@ import com.gdx.tia.enums.Direction;
 
 public class MainMenuScreen implements Screen {
 
-    private TacticalInfiltrationAction tia;
+    public static MainMenuScreen ref;
+
     private GameScreen gameScreen;
 
-    Stage menuStage;
-    TextureAtlas menuAtlas;
-    Skin menuSkin;
+    private Stage menuStage;
+    private TextureAtlas menuAtlas;
+    private Skin menuSkin;
 
-    Table table;
-    BitmapFont white;
+    private Table table;
+    private BitmapFont white;
 
-    Image title;
-    TextButton buttonPlay;
-    Direction titleDirection;
+    private Image title;
+    private TextButton buttonPlay;
+    private Direction titleDirection;
 
-    Sound theme;
+    private Sound theme;
 
-    float titleTimer;
+    private float titleTimer;
 
-    public MainMenuScreen(TacticalInfiltrationAction tia) {
-        this.tia = tia;
+    public MainMenuScreen() {
+        ref = this;
         gameScreen = new GameScreen();
         loadAssets();
     }
@@ -47,7 +47,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         menuStage = new Stage();
-        menuAtlas = new TextureAtlas("menu-sheet.txt");
+        theme = TacticalInfiltrationAction.assetManager.get("menu-theme.ogg");
+        menuAtlas = TacticalInfiltrationAction.assetManager.get("ui-sheet.txt");
         menuSkin = new Skin(menuAtlas);
 
         table = new Table(menuSkin);
@@ -59,6 +60,7 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.down = menuSkin.getDrawable("button-down");
         textButtonStyle.font = white;
         textButtonStyle.downFontColor = Color.BLACK;
+        textButtonStyle.overFontColor = Color.BLACK;
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetX = -1;
 
@@ -137,7 +139,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 if (buttonPlay.isOver()) {
-                    tia.changeScreen(gameScreen);
+                    TacticalInfiltrationAction.ref.changeScreen(gameScreen);
                 }
             }
         });
@@ -149,6 +151,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void loadAssets() {
+        TacticalInfiltrationAction.assetManager.load("ui-sheet.txt", TextureAtlas.class);
         TacticalInfiltrationAction.assetManager.load("menu-theme.ogg", Sound.class);
     }
 

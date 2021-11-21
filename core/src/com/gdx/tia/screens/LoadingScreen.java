@@ -7,15 +7,12 @@ import com.gdx.tia.element.Loadbar;
 
 public class LoadingScreen implements Screen {
 
-    private TacticalInfiltrationAction tia;
-
     private Screen nextScreen;
 
     private Loadbar loadbar;
 
-    public LoadingScreen(TacticalInfiltrationAction tia, Screen nextScreen) {
+    public LoadingScreen(Screen nextScreen) {
         this.nextScreen = nextScreen;
-        this.tia = tia;
     }
 
     @Override
@@ -28,7 +25,7 @@ public class LoadingScreen implements Screen {
         if (!TacticalInfiltrationAction.assetManager.update())
             loadbar.update(TacticalInfiltrationAction.assetManager.getProgress());
         else {
-            tia.changeScreen(nextScreen);
+            TacticalInfiltrationAction.ref.changeScreen(nextScreen);
         }
     }
 

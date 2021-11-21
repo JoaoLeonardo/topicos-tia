@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.element.Enemy;
-import com.gdx.tia.element.World;
 
 import java.util.ArrayList;
 
@@ -13,20 +12,11 @@ public class EnemyController implements ActionController {
 
     private final int MAX_WAVE_LENGTH = 8;
 
-    private final World currentStage;
-
-    private final AgentController agentController;
-
     private final ArrayList<Enemy> activeEnemies = new ArrayList<>();
     private Pool<Enemy> enemyPool;
 
     public TextureAtlas enemyAtlas;
     private int currentWaveLength;
-
-    public EnemyController(World currentWorld, AgentController agentController) {
-        this.currentStage = currentWorld;
-        this.agentController = agentController;
-    }
 
     @Override
     public void create() {
@@ -73,7 +63,7 @@ public class EnemyController implements ActionController {
 
     public boolean isCleared() { return activeEnemies.size() <= 0; }
 
-    public float getAgentX() { return agentController.getAgentSprite().getX(); }
-    public float getAgentY() { return agentController.getAgentSprite().getY(); }
+    public float getAgentX() { return AgentController.ref.getAgentSprite().getX(); }
+    public float getAgentY() { return AgentController.ref.getAgentSprite().getY(); }
 
 }

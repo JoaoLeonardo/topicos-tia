@@ -7,12 +7,12 @@ public class Agent extends AliveEntity {
     public Agent() { start(); }
 
     public void start() {
-        healthbar = 5;
+        healthbar = 3;
         score = 0;
         alive = true;
     }
 
-    public void increaseScore(int amount) { score += amount; }
+    public void increaseScoreByKill() { score += 5; }
 
     public int getScore() { return score; }
 

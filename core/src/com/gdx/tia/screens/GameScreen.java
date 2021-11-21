@@ -17,6 +17,8 @@ import com.gdx.tia.element.World;
 
 public class GameScreen implements Screen {
 
+    public static GameScreen ref;
+
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap map;
@@ -25,7 +27,12 @@ public class GameScreen implements Screen {
 
     private Vector2 screenCenter;
 
-    public GameScreen() { loadAssets(); }
+    private Sound theme;
+
+    public GameScreen() {
+        ref = this;
+        loadAssets();
+    }
 
     @Override
     public void show() {
@@ -36,6 +43,9 @@ public class GameScreen implements Screen {
 
         gameWorld = new Stage(renderer.getBatch(), this);
         gameWorld.create();
+
+        theme = TacticalInfiltrationAction.assetManager.get("stage-music.ogg");
+        playTheme();
     }
 
     @Override
@@ -74,6 +84,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         map.dispose();
+        theme.dispose();
         renderer.dispose();
         gameWorld.dispose();
     }
@@ -81,8 +92,13 @@ public class GameScreen implements Screen {
     public OrthographicCamera getCamera() { return camera; }
     public Vector2 getScreenCenter() { return screenCenter; }
 
+    public void playTheme() {
+        long id = theme.play(0.1f);
+        theme.setLooping(id, true);
+    }
     private void loadAssets() {
         TacticalInfiltrationAction.assetManager.load("gunshot.ogg", Sound.class);
+        TacticalInfiltrationAction.assetManager.load("stage-music.ogg", Sound.class);
         TacticalInfiltrationAction.assetManager.load("bullet.png", Texture.class);
     }
 
