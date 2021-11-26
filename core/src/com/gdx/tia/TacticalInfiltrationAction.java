@@ -17,6 +17,7 @@ public class TacticalInfiltrationAction extends Game {
         ref = this;
         assetManager = new AssetManager();
         setScreen(new LoadingScreen(new MainMenuScreen()));
+        // TODO: Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
     }
 
     public void changeScreen(Screen newScreen) {

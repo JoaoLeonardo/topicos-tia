@@ -6,9 +6,14 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.tia.TacticalInfiltrationAction;
@@ -22,6 +27,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap map;
+    MapObjects objects;
 
     private World gameWorld;
 
@@ -38,6 +44,7 @@ public class GameScreen implements Screen {
     public void show() {
         camera = new OrthographicCamera();
         map = new TmxMapLoader().load("facility-1-1.tmx");
+        objects = map.getLayers().get(1).getObjects();
         renderer = new OrthogonalTiledMapRenderer(map);
         screenCenter = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
 
@@ -60,6 +67,7 @@ public class GameScreen implements Screen {
 
         // renderiza os elementos do mundo
         renderer.getBatch().begin();
+
         if (TacticalInfiltrationAction.assetManager.update()) gameWorld.render();
         renderer.getBatch().end();
     }
@@ -92,7 +100,18 @@ public class GameScreen implements Screen {
     public OrthographicCamera getCamera() { return camera; }
     public Vector2 getScreenCenter() { return screenCenter; }
 
-    public void playTheme() {
+    public boolean hasCollidedWithMap(Sprite sprite) {
+        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+
+            Rectangle rectangle = rectangleObject.getRectangle();
+            if (Intersector.overlaps(rectangle, sprite.getBoundingRectangle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void playTheme() {
         long id = theme.play(0.1f);
         theme.setLooping(id, true);
     }

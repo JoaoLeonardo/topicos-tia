@@ -36,6 +36,11 @@ public class AgentProcessor implements InputProcessor {
 
     public void update() {
         position.add(movementDirection.x * Gdx.graphics.getDeltaTime(), movementDirection.y * Gdx.graphics.getDeltaTime());
+
+        // bounce off instead of reset in position
+        if (GameScreen.ref.hasCollidedWithMap(AgentController.ref.getAgentSprite()))
+            position.sub(movementDirection.x * Gdx.graphics.getDeltaTime(), movementDirection.y * Gdx.graphics.getDeltaTime());
+
         agentController.getAgentSprite().setPosition(position.x, position.y);
     }
 
