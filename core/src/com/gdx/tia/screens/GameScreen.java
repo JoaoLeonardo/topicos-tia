@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.element.Stage;
 import com.gdx.tia.element.World;
+import com.gdx.tia.enums.CollisionAccuracy;
+import com.gdx.tia.enums.Direction;
+import com.gdx.tia.utils.CollisionUtils;
 
 public class GameScreen implements Screen {
 
@@ -100,11 +103,10 @@ public class GameScreen implements Screen {
     public OrthographicCamera getCamera() { return camera; }
     public Vector2 getScreenCenter() { return screenCenter; }
 
-    public boolean hasCollidedWithMap(Sprite sprite) {
+    public boolean hasCollidedWithMap(Rectangle boundingRectangle) {
         for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
-
             Rectangle rectangle = rectangleObject.getRectangle();
-            if (Intersector.overlaps(rectangle, sprite.getBoundingRectangle())) {
+            if (Intersector.overlaps(rectangle, boundingRectangle)) {
                 return true;
             }
         }

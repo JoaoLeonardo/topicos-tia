@@ -26,4 +26,18 @@ public enum Direction {
         }
         return Direction.HALT;
     }
+
+    public static Direction getInverseDirection(Direction direction) {
+        switch (direction) {
+            case UPRIGHT:
+            case UPLEFT:
+            case UP: return DOWN;
+            case DOWNRIGHT:
+            case DOWNLEFT:
+            case DOWN: return UP;
+            case RIGHT: return LEFT;
+            case LEFT: return RIGHT;
+        }
+        return Direction.HALT;
+    }
 }

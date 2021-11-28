@@ -4,18 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.controller.AgentController;
-import com.gdx.tia.element.World;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.screens.GameScreen;
 
 public class AgentProcessor implements InputProcessor {
 
     private final int MOVEMENT_SPEED = 200;
-    private final int MAXIMUM_X = Gdx.graphics.getWidth() - 24;
-    private final int MAXIMUM_Y = Gdx.graphics.getHeight() - 32;
 
     // espaço entre uma direção e outra (de 32 à -32)
     private final int SENSITIVITY_X = 32;
@@ -28,6 +26,10 @@ public class AgentProcessor implements InputProcessor {
 
     private Direction mouseDirection;
 
+    private Direction bounceDirection;
+    private float collisionTimer;
+    private boolean isBouncing;
+
     public AgentProcessor(int initialX, int initialY, AgentController agentController) {
         this.position = new Vector2(initialX, initialY);
         this.movementDirection = new Vector2(Direction.HALT.displacementVector);
@@ -35,11 +37,27 @@ public class AgentProcessor implements InputProcessor {
     }
 
     public void update() {
-        position.add(movementDirection.x * Gdx.graphics.getDeltaTime(), movementDirection.y * Gdx.graphics.getDeltaTime());
+        float delta = Gdx.graphics.getDeltaTime();
 
-        // bounce off instead of reset in position
-        if (GameScreen.ref.hasCollidedWithMap(AgentController.ref.getAgentSprite()))
-            position.sub(movementDirection.x * Gdx.graphics.getDeltaTime(), movementDirection.y * Gdx.graphics.getDeltaTime());
+        if (!this.isBouncing) {
+            if (GameScreen.ref.hasCollidedWithMap(agentController.getAgentRectangle())) {
+                this.isBouncing = true;
+                bounceDirection = Direction.getInverseDirection(Direction.getDirectionByDisplacement(movementDirection));
+                this.collisionTimer = 0;
+            } else {
+                position.x += movementDirection.x * MOVEMENT_SPEED * delta;
+                position.y += movementDirection.y * MOVEMENT_SPEED * delta;
+            }
+        } else {
+            this.collisionTimer += delta;
+
+            if (this.collisionTimer < 0.3) {
+                position.x += bounceDirection.displacementVector.x * MOVEMENT_SPEED * 1.2 * delta;
+                position.y += bounceDirection.displacementVector.y * MOVEMENT_SPEED * 1.2 * delta;
+            } else {
+                this.isBouncing = false;
+            }
+        }
 
         agentController.getAgentSprite().setPosition(position.x, position.y);
     }
@@ -47,11 +65,21 @@ public class AgentProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
-            case Input.Keys.W: movementDirection.y = MOVEMENT_SPEED; break; // UP
-            case Input.Keys.A: movementDirection.x = -MOVEMENT_SPEED; break; // LEFT
-            case Input.Keys.S: movementDirection.y = -MOVEMENT_SPEED; break; // DOWN
-            case Input.Keys.D: movementDirection.x = MOVEMENT_SPEED; break; // RIGHT
-            default: this.position.add(Direction.HALT.displacementVector); break; // NONE
+            case Input.Keys.W:
+                movementDirection.y = 1;
+                break; // UP
+            case Input.Keys.A:
+                movementDirection.x = -1;
+                break; // LEFT
+            case Input.Keys.S:
+                movementDirection.y = -1;
+                break; // DOWN
+            case Input.Keys.D:
+                movementDirection.x = 1;
+                break; // RIGHT
+            default:
+                this.position.add(Direction.HALT.displacementVector);
+                break; // NONE
         }
         return true;
     }
@@ -60,26 +88,22 @@ public class AgentProcessor implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                if (movementDirection.y == MOVEMENT_SPEED) movementDirection.y = 0;
+                if (movementDirection.y == 1) movementDirection.y = 0;
                 break;
             case Input.Keys.A:
-                if (movementDirection.x == -MOVEMENT_SPEED) movementDirection.x = 0;
+                if (movementDirection.x == -1) movementDirection.x = 0;
                 break;
             case Input.Keys.S:
-                if (movementDirection.y == -MOVEMENT_SPEED) movementDirection.y = 0;
+                if (movementDirection.y == -1) movementDirection.y = 0;
                 break;
             case Input.Keys.D:
-                if (movementDirection.x == MOVEMENT_SPEED) movementDirection.x = 0;
+                if (movementDirection.x == 1) movementDirection.x = 0;
                 break;
             default:
                 break;
         }
         return true;
     }
-
-    public boolean isOnScreenX() { return 0 <= position.x && position.x <= MAXIMUM_X; }
-
-    public boolean isOnScreenY() { return 0 <= position.y && position.y <= MAXIMUM_Y; }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -104,7 +128,9 @@ public class AgentProcessor implements InputProcessor {
     }
 
     @Override
-    public boolean keyTyped(char character) { return false; }
+    public boolean keyTyped(char character) {
+        return false;
+    }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -121,6 +147,8 @@ public class AgentProcessor implements InputProcessor {
         return false;
     }
 
-    private Sound getGunshotFx() { return TacticalInfiltrationAction.assetManager.get("gunshot.ogg"); }
+    private Sound getGunshotFx() {
+        return TacticalInfiltrationAction.assetManager.get("gunshot.ogg");
+    }
 
 }
