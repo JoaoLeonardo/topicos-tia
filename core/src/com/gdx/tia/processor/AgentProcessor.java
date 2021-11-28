@@ -26,10 +26,6 @@ public class AgentProcessor implements InputProcessor {
 
     private Direction mouseDirection;
 
-    private Direction bounceDirection;
-    private float collisionTimer;
-    private boolean isBouncing;
-
     public AgentProcessor(int initialX, int initialY, AgentController agentController) {
         this.position = new Vector2(initialX, initialY);
         this.movementDirection = new Vector2(Direction.HALT.displacementVector);
@@ -37,29 +33,19 @@ public class AgentProcessor implements InputProcessor {
     }
 
     public void update() {
-        float delta = Gdx.graphics.getDeltaTime();
+        float speed = MOVEMENT_SPEED * Gdx.graphics.getDeltaTime();
+        float futureX = movementDirection.x * speed;
+        float futureY = movementDirection.y * speed;
+        Rectangle rectangle = agentController.getAgentSprite().getBoundingRectangle();
 
-        if (!this.isBouncing) {
-            if (GameScreen.ref.hasCollidedWithMap(agentController.getAgentRectangle())) {
-                this.isBouncing = true;
-                bounceDirection = Direction.getInverseDirection(Direction.getDirectionByDisplacement(movementDirection));
-                this.collisionTimer = 0;
-            } else {
-                position.x += movementDirection.x * MOVEMENT_SPEED * delta;
-                position.y += movementDirection.y * MOVEMENT_SPEED * delta;
-            }
-        } else {
-            this.collisionTimer += delta;
+        rectangle.x += futureX;
+        rectangle.y += futureY;
 
-            if (this.collisionTimer < 0.3) {
-                position.x += bounceDirection.displacementVector.x * MOVEMENT_SPEED * 1.2 * delta;
-                position.y += bounceDirection.displacementVector.y * MOVEMENT_SPEED * 1.2 * delta;
-            } else {
-                this.isBouncing = false;
-            }
+        if (!GameScreen.ref.hasCollidedWithMap(rectangle)) {
+            position.x += futureX;
+            position.y += futureY;
+            agentController.getAgentSprite().setPosition(position.x, position.y);
         }
-
-        agentController.getAgentSprite().setPosition(position.x, position.y);
     }
 
     @Override

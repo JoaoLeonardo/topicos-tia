@@ -56,8 +56,6 @@ public class AgentController implements ActionController {
 
     public Sprite getAgentSprite() { return agentSprite; }
 
-    public Rectangle getAgentRectangle() { return agentSprite.getBoundingRectangle(); }
-
     public void setAgentSprite(String region) {
         agentSprite = agentAtlas.createSprite(region);
     }
