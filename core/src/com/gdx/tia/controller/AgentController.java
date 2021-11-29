@@ -35,7 +35,8 @@ public class AgentController implements ActionController {
         // atualiza a posição do agente
         agentProcessor.update();
         // desenha o frame do agente
-        agent.sprite.draw(batch);
+        if (!agent.hasBeenHit) agent.sprite.draw(batch);
+        else agent.hasBeenHit = false;
     }
 
     public Agent getAgent() { return agent; }

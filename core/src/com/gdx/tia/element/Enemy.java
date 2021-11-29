@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.gdx.tia.controller.BulletController;
 import com.gdx.tia.controller.EnemyController;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.screens.GameScreen;
@@ -25,6 +26,8 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     private boolean isDiverting;
     private float dodgeTimer;
 
+    private float gunTimer;
+
     public Enemy(EnemyController enemyController) {
         this.enemyController = enemyController;
         reset();
@@ -33,6 +36,7 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     public void init(float initialX, float initialY) {
         sprite = enemyController.enemyAtlas.createSprite(Direction.HALT.name());
         position = new Vector2(initialX + 50, initialY);
+        gunTimer = 0;
         revive();
     }
 
@@ -46,6 +50,13 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
         if (!isDiverting) {
             // segue o agente
             moveToTarget(direction);
+
+            // atira
+            gunTimer += Gdx.graphics.getDeltaTime();
+            if (gunTimer > 1) {
+                gunTimer = 0;
+                BulletController.ref.addActiveBullet(position, direction, null, false);
+            }
         } else {
             // desvia do objeto o agente
             dodgeObject();

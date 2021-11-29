@@ -45,7 +45,9 @@ public class EnemyController implements ActionController {
             if (activeEnemies.get(i).alive) {
                 // renderiza o inimigo
                 activeEnemies.get(i).update();
-                activeEnemies.get(i).getSprite().draw(batch);
+
+                if (!activeEnemies.get(i).hasBeenHit) activeEnemies.get(i).getSprite().draw(batch);
+                else activeEnemies.get(i).hasBeenHit = false;
             } else {
                 // libera o inimigo da pool/lista de ativos
                 enemyPool.free(this.activeEnemies.remove(i));
