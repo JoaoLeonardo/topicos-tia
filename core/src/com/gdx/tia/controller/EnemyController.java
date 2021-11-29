@@ -7,8 +7,11 @@ import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.element.Enemy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EnemyController implements ActionController {
+
+    public static EnemyController ref;
 
     private final int MAX_WAVE_LENGTH = 8;
 
@@ -20,6 +23,7 @@ public class EnemyController implements ActionController {
 
     @Override
     public void create() {
+        ref = this;
         enemyAtlas = new TextureAtlas("enemy.txt");
         enemyPool = new Pool<Enemy>() {
             @Override
@@ -60,6 +64,8 @@ public class EnemyController implements ActionController {
             activeEnemies.add(freshEnemy);
         }
     }
+
+    public List<Enemy> getActiveEnemies() { return activeEnemies; }
 
     public boolean isCleared() { return activeEnemies.size() <= 0; }
 

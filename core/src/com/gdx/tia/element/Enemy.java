@@ -1,7 +1,6 @@
 package com.gdx.tia.element;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
@@ -21,8 +20,6 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     private Vector2 position;
 
     private final EnemyController enemyController;
-
-    private Sprite sprite;
 
     private Direction dodgeDirection;
     private boolean isDiverting;
@@ -62,6 +59,7 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
         if (GameScreen.ref.hasCollidedWithMap(enemyRectangle)) {
             this.isDiverting = true;
             this.dodgeTimer = 0;
+            // NÃO É A DIREÇÃO INVERSA
             dodgeDirection = CollisionUtils.getDiversionDirection(direction);
             dodgeObject();
         } else {
@@ -71,6 +69,7 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     }
 
     public void dodgeObject() {
+        // TODO: Verificar se a esquiva causou outra colisão
         Rectangle enemyRectangle = moveRectangle(dodgeDirection.displacementVector);
         dodgeTimer += Gdx.graphics.getDeltaTime();
         this.isDiverting = dodgeTimer < 1;
@@ -84,7 +83,6 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
         Rectangle enemyRectangle = sprite.getBoundingRectangle();
         float xDisp = displacement.x * mSpeed;
         float yDisp = displacement.y * mSpeed;
-        System.out.println(displacement);
         enemyRectangle.setPosition(position.x + xDisp, position.y + yDisp);
         return enemyRectangle;
     }
@@ -98,10 +96,6 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
                 yDiff > Y_SENSITIVITY ? 1 : (yDiff < -Y_SENSITIVITY ? -1 : 0)
         );
         return Direction.getDirectionByDisplacement(diffVector);
-    }
-
-    public Sprite getSprite() {
-        return sprite;
     }
 
     @Override

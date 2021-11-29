@@ -1,10 +1,18 @@
 package com.gdx.tia.element;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+
 public class Agent extends AliveEntity {
+
+    private TextureAtlas agentAtlas;
 
     private int score;
 
-    public Agent() { start(); }
+    public Agent() {
+        agentAtlas = new TextureAtlas("agent.txt");
+        start();
+    }
 
     public void start() {
         healthbar = 3;
@@ -16,4 +24,13 @@ public class Agent extends AliveEntity {
 
     public int getScore() { return score; }
 
+    public void setSprite(String region, Vector2 position) {
+        sprite = agentAtlas.createSprite(region);
+        sprite.setPosition(position.x, position.y);
+        sprite.getBoundingRectangle().setPosition(position);
+    }
+
+    public void dispose() {
+        agentAtlas.dispose();
+    }
 }

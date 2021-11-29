@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.controller.AgentController;
+import com.gdx.tia.controller.BulletController;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.screens.GameScreen;
 
@@ -95,7 +96,7 @@ public class AgentProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (Input.Buttons.LEFT == button)
-            agentController.getBulletController().addActiveBullet(position, mouseDirection, getGunshotFx());
+            BulletController.ref.addActiveBullet(position, mouseDirection, getGunshotFx(), true);
         return true;
     }
 

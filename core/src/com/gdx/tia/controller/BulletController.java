@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class BulletController implements ActionController {
 
+    public static BulletController ref;
+
     private ArrayList<Bullet> activeBullets;
     private final Pool<Bullet> bulletPool = new Pool<Bullet>() {
         @Override
@@ -21,21 +23,19 @@ public class BulletController implements ActionController {
 
     @Override
     public void create() {
+        ref = this;
         activeBullets = new ArrayList<>();
     }
 
     @Override
     public void drawElements(Batch batch) {
-        for (Bullet activeBullet : activeBullets) {
-            if (activeBullet.update())
-                batch.draw(Bullet.getTexture(), activeBullet.getPosition().x, activeBullet.getPosition().y);
-        }
+        for (Bullet activeBullet : activeBullets) activeBullet.update(batch);
     }
 
-    public void addActiveBullet(Vector2 origin, Direction direction, Sound sound) {
+    public void addActiveBullet(Vector2 origin, Direction direction, Sound sound, boolean shotByPlayer) {
         // adiciona uma bala na lista de balas ativas
         Bullet freshBullet = bulletPool.obtain();
-        freshBullet.init(origin.x, origin.y, direction);
+        freshBullet.init(origin.x, origin.y, direction, shotByPlayer);
         activeBullets.add(freshBullet);
 
         // toca o efeito de tiro

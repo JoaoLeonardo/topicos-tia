@@ -3,7 +3,6 @@ package com.gdx.tia.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gdx.tia.element.Agent;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.processor.AgentProcessor;
@@ -13,16 +12,10 @@ public class AgentController implements ActionController {
 
     public static AgentController ref;
 
-    private final BulletController bulletController;
-
-    private TextureAtlas agentAtlas;
-    private Sprite agentSprite;
-
     private AgentProcessor agentProcessor;
     private Agent agent;
 
-    public AgentController(BulletController bulletController) {
-        this.bulletController = bulletController;
+    public AgentController() {
         agent = new Agent();
         ref = this;
     }
@@ -34,8 +27,6 @@ public class AgentController implements ActionController {
 
         agentProcessor = new AgentProcessor(xCenter, yCenter, this);
         Gdx.input.setInputProcessor(agentProcessor);
-
-        agentAtlas = new TextureAtlas("agent.txt");
         setAgentSprite(Direction.RIGHT.name());
     }
 
@@ -44,25 +35,19 @@ public class AgentController implements ActionController {
         // atualiza a posição do agente
         agentProcessor.update();
         // desenha o frame do agente
-        agentSprite.draw(batch);
-    }
-
-    public BulletController getBulletController() {
-        return bulletController;
+        agent.sprite.draw(batch);
     }
 
     public Agent getAgent() { return agent; }
 
-    public Sprite getAgentSprite() { return agentSprite; }
+    public Sprite getAgentSprite() { return agent.sprite; }
 
     public void setAgentSprite(String region) {
-        agentSprite = agentAtlas.createSprite(region);
-        agentSprite.setPosition(agentProcessor.position.x, agentProcessor.position.y);
-        agentSprite.getBoundingRectangle().setPosition(agentProcessor.position);
+        agent.setSprite(region, agentProcessor.position);
     }
 
     public void dispose() {
-        agentAtlas.dispose();
+        agent.dispose();
     }
 
 }

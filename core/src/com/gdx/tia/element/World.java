@@ -2,6 +2,7 @@ package com.gdx.tia.element;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.controller.ActionController;
@@ -42,6 +43,8 @@ public abstract class World implements ApplicationListener {
         for (ActionController actionController : actionControllerList) actionController.drawElements(batch);
         gameScreen.getCamera().position.set(getPlayerPosition(), 0);
     }
+
+    abstract boolean hasCollidedWithAliveEntity(Bullet bullet);
 
     @Override
     public void resize(int width, int height) { }

@@ -1,6 +1,6 @@
 package com.gdx.tia.enums;
 
-public enum CollisionAccuracy {
+public enum HitAcc {
     LOOSE,
     PRECISE,
 }

@@ -2,10 +2,14 @@ package com.gdx.tia.element;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.TacticalInfiltrationAction;
+import com.gdx.tia.controller.AgentController;
 import com.gdx.tia.enums.Direction;
+import com.gdx.tia.screens.GameScreen;
 
 public class Bullet implements Pool.Poolable {
 
@@ -13,38 +17,50 @@ public class Bullet implements Pool.Poolable {
 
     private final Vector2 position;
 
+    private final Sprite bulletSprite;
+
     private Vector2 movementDirection;
+
     public boolean active;
+    public boolean boundByPlayer;
 
     public Bullet() {
         position = new Vector2();
         movementDirection = Direction.RIGHT.displacementVector;
+        bulletSprite = new Sprite(TacticalInfiltrationAction.assetManager.get("bullet.png", Texture.class));
         active = false;
+        boundByPlayer = false;
     }
 
-    public void init(float initialX, float initialY, Direction direction) {
+    public void init(float initialX, float initialY, Direction direction, boolean shotByPlayer) {
         active = true;
-        position.set(initialX + 6, initialY + 16); // + 6 pra cima, + 2 para baixo
+        boundByPlayer = shotByPlayer;
+
+        int offsetX = getOffsetX(direction);
+        int offsetY = getOffsetY(direction);
+        position.set(initialX + offsetX, initialY + offsetY);
 
         if (Direction.HALT.equals(direction)) direction = Direction.RIGHT;
         movementDirection = direction.displacementVector;
     }
 
-    public boolean isOnScreen() { // TODO: Verificar de acordo com o mapa
-        return (0 <= position.x && position.x <= Gdx.graphics.getWidth()) &&
-                (0 <= position.y && position.y <= Gdx.graphics.getHeight());
-    }
+    public void update(Batch batch) {
+        if (!active) return;
 
-    public boolean update() {
-        // if (isOnScreen()) {
-            position.add(
-                    movementDirection.x * MOVEMENT_SPEED * Gdx.graphics.getDeltaTime(),
-                    movementDirection.y * MOVEMENT_SPEED * Gdx.graphics.getDeltaTime()
-            );
-        /*} else {
-            active = false;
-        }*/
-        return active;
+        final float mvSpeed = MOVEMENT_SPEED * Gdx.graphics.getDeltaTime();
+        position.add(movementDirection.x * mvSpeed, movementDirection.y * mvSpeed);
+        bulletSprite.setPosition(position.x, position.y);
+
+        active = !GameScreen.ref.hasCollidedWithMap(bulletSprite.getBoundingRectangle());
+
+        if (active) {
+            bulletSprite.draw(batch);
+
+            if (World.currentStage.hasCollidedWithAliveEntity(this)) {
+                active = false;
+                if (boundByPlayer) AgentController.ref.getAgent().increaseScoreByKill();
+            }
+        }
     }
 
     @Override
@@ -53,12 +69,20 @@ public class Bullet implements Pool.Poolable {
         active = false;
     }
 
-    public Vector2 getPosition() {
-        return position;
+    private int getOffsetX(Direction direction) {
+        switch (direction) {
+            case UPLEFT:
+            case UP: return 7;
+            case RIGHT:
+            case UPRIGHT: return 12;
+            case DOWN: return 3;
+            case DOWNLEFT: return 10;
+            case DOWNRIGHT: return 14;
+        }
+        return 0;
     }
 
-    public static Texture getTexture() {
-        return TacticalInfiltrationAction.assetManager.get("bullet.png", Texture.class);
-    }
+    private int getOffsetY(Direction direction) { return Direction.DOWNRIGHT.equals(direction) ? 12 : 16; }
 
+    public Sprite getBulletSprite() { return bulletSprite; }
 }
