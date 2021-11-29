@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
 import com.gdx.tia.element.Agent;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.processor.AgentProcessor;
@@ -58,6 +57,8 @@ public class AgentController implements ActionController {
 
     public void setAgentSprite(String region) {
         agentSprite = agentAtlas.createSprite(region);
+        agentSprite.setPosition(agentProcessor.position.x, agentProcessor.position.y);
+        agentSprite.getBoundingRectangle().setPosition(agentProcessor.position);
     }
 
     public void dispose() {

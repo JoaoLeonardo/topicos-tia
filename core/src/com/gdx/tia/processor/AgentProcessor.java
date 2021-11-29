@@ -22,7 +22,7 @@ public class AgentProcessor implements InputProcessor {
     private final AgentController agentController;
 
     private final Vector2 movementDirection;
-    private final Vector2 position;
+    public final Vector2 position;
 
     private Direction mouseDirection;
 
@@ -38,6 +38,7 @@ public class AgentProcessor implements InputProcessor {
         float futureY = movementDirection.y * speed;
         Rectangle rectangle = agentController.getAgentSprite().getBoundingRectangle();
 
+        // É ZERO QUANDO MUDA A REGIÃO
         rectangle.x += futureX;
         rectangle.y += futureY;
 

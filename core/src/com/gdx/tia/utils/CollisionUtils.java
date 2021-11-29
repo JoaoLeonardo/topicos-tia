@@ -1,19 +1,22 @@
 package com.gdx.tia.utils;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.gdx.tia.enums.CollisionAccuracy;
 import com.gdx.tia.enums.Direction;
 
 public class CollisionUtils {
 
-    public static Direction hasCollided(Rectangle r1, Rectangle r2, CollisionAccuracy acc) {
-        switch (acc) {
-            case LOOSE:
-                break;
-            default:
-                return hasHit(r1, r2);
+    public static Direction getDiversionDirection(Direction direction) {
+        switch (direction) {
+            case UPRIGHT:
+            case UPLEFT:
+            case UP: return Direction.LEFT;
+            case RIGHT: return Direction.DOWN;
+            case DOWNRIGHT:
+            case DOWNLEFT:
+            case DOWN: return Direction.RIGHT;
+            case LEFT: return Direction.UP;
         }
-        return null;
+        return Direction.HALT;
     }
 
     private static Direction hasHit(Rectangle r1, Rectangle r2) {

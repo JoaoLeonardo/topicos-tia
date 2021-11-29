@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,9 +18,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.element.Stage;
 import com.gdx.tia.element.World;
-import com.gdx.tia.enums.CollisionAccuracy;
-import com.gdx.tia.enums.Direction;
-import com.gdx.tia.utils.CollisionUtils;
 
 public class GameScreen implements Screen {
 
