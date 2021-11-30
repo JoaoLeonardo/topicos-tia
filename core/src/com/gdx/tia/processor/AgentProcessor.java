@@ -53,18 +53,11 @@ public class AgentProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
-            case Input.Keys.W:
-                movementDirection.y = 1;
-                break; // UP
-            case Input.Keys.A:
-                movementDirection.x = -1;
-                break; // LEFT
-            case Input.Keys.S:
-                movementDirection.y = -1;
-                break; // DOWN
-            case Input.Keys.D:
-                movementDirection.x = 1;
-                break; // RIGHT
+            case Input.Keys.W: movementDirection.y = 1; break; // UP
+            case Input.Keys.A: movementDirection.x = -1; break; // LEFT
+            case Input.Keys.S: movementDirection.y = -1; break; // DOWN
+            case Input.Keys.D: movementDirection.x = 1; break; // RIGHT
+            case Input.Keys.Q: AgentController.ref.getAgent().tradeScore(); // Ação especial
             default:
                 this.position.add(Direction.HALT.displacementVector);
                 break; // NONE
@@ -75,20 +68,11 @@ public class AgentProcessor implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         switch (keycode) {
-            case Input.Keys.W:
-                if (movementDirection.y == 1) movementDirection.y = 0;
-                break;
-            case Input.Keys.A:
-                if (movementDirection.x == -1) movementDirection.x = 0;
-                break;
-            case Input.Keys.S:
-                if (movementDirection.y == -1) movementDirection.y = 0;
-                break;
-            case Input.Keys.D:
-                if (movementDirection.x == 1) movementDirection.x = 0;
-                break;
-            default:
-                break;
+            case Input.Keys.W: if (movementDirection.y == 1) movementDirection.y = 0; break;
+            case Input.Keys.A: if (movementDirection.x == -1) movementDirection.x = 0; break;
+            case Input.Keys.S: if (movementDirection.y == -1) movementDirection.y = 0; break;
+            case Input.Keys.D: if (movementDirection.x == 1) movementDirection.x = 0; break;
+            default: break;
         }
         return true;
     }

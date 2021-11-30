@@ -28,6 +28,7 @@ public class Bullet implements Pool.Poolable {
         position = new Vector2();
         movementDirection = Direction.RIGHT.displacementVector;
         bulletSprite = new Sprite(TacticalInfiltrationAction.assetManager.get("bullet.png", Texture.class));
+        bulletSprite.scale(1.2f);
         active = false;
         boundByPlayer = false;
     }

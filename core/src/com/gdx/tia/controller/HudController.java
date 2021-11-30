@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gdx.tia.TacticalInfiltrationAction;
+import com.gdx.tia.element.Agent;
 import com.gdx.tia.screens.GameScreen;
 
 public class HudController implements ActionController {
@@ -48,7 +49,9 @@ public class HudController implements ActionController {
         final float onCameraMaxX =  GameScreen.ref.getCamera().position.x + GameScreen.ref.getScreenCenter().x;
         final float onCameraMaxY =  GameScreen.ref.getCamera().position.y + GameScreen.ref.getScreenCenter().y;
 
-        String score = AgentController.ref.getAgent().getScore() + "";
+        Agent agent = AgentController.ref.getAgent();
+        String score = (agent.canTradeScore ? "(Q) " : "") + agent.getScore() + "";
+
         // razão para (tentar) manter o mesmo alinhamento horizontal independente do tamanho da string ;)
         int scoreCorrection = (score.length() + (score.length() % 2)) / 2;
 

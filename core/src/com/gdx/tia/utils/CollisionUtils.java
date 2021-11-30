@@ -6,18 +6,23 @@ import com.gdx.tia.element.AliveEntity;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.enums.HitAcc;
 
+import java.util.Random;
+
+
 public class CollisionUtils {
+
+    private static final Random random = new Random();
 
     public static Direction getDiversionDirection(Direction direction) {
         switch (direction) {
-            case UPRIGHT:
-            case UPLEFT:
-            case UP: return Direction.LEFT;
-            case RIGHT: return Direction.DOWN;
-            case DOWNRIGHT:
-            case DOWNLEFT:
-            case DOWN: return Direction.RIGHT;
-            case LEFT: return Direction.UP;
+            case UP: return random.nextBoolean() ? Direction.LEFT : Direction.RIGHT;
+            case DOWN: return random.nextBoolean() ? Direction.RIGHT : Direction.LEFT;
+            case RIGHT: return random.nextBoolean() ? Direction.DOWN : Direction.UP;
+            case LEFT: return random.nextBoolean() ? Direction.UP : Direction.DOWN;
+            case UPRIGHT: return random.nextBoolean() ? Direction.LEFT : Direction.DOWN;
+            case UPLEFT: return random.nextBoolean() ? Direction.RIGHT : Direction.DOWN;
+            case DOWNRIGHT: return random.nextBoolean() ? Direction.LEFT : Direction.UP;
+            case DOWNLEFT: return random.nextBoolean() ? Direction.RIGHT : Direction.UP;
         }
         return Direction.HALT;
     }
@@ -46,8 +51,8 @@ public class CollisionUtils {
     }
 
     private static boolean looseHit(Rectangle r1, Rectangle r2) {
-        r1.setWidth(r1.width * 1.5f);
-        r1.setHeight(r1.height * 1.5f);
+        r2.setWidth(r2.width * 1.5f);
+        r2.setHeight(r2.height * 1.5f);
         return r1.overlaps(r2);
     }
 

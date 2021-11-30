@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.tia.TacticalInfiltrationAction;
@@ -28,7 +25,7 @@ public class MainMenuScreen implements Screen {
     private Skin menuSkin;
 
     private Table table;
-    private BitmapFont white;
+    private BitmapFont font;
 
     private Image title;
     private TextButton buttonPlay;
@@ -36,13 +33,18 @@ public class MainMenuScreen implements Screen {
 
     private Sound theme;
 
+    private int score;
+
     private float titleTimer;
 
-    public MainMenuScreen() {
+    public MainMenuScreen(int score) {
         ref = this;
         gameScreen = new GameScreen();
         loadAssets();
+        this.score = score;
     }
+
+    public void setScore(int score) { this.score = score; }
 
     @Override
     public void show() {
@@ -53,12 +55,12 @@ public class MainMenuScreen implements Screen {
 
         table = new Table(menuSkin);
         table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        white = new BitmapFont(Gdx.files.internal("tia.fnt"));
+        font = new BitmapFont(Gdx.files.internal("tia.fnt"));
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = menuSkin.getDrawable("button");
         textButtonStyle.down = menuSkin.getDrawable("button-down");
-        textButtonStyle.font = white;
+        textButtonStyle.font = font;
         textButtonStyle.downFontColor = Color.BLACK;
         textButtonStyle.overFontColor = Color.BLACK;
         textButtonStyle.pressedOffsetX = 1;
@@ -71,10 +73,14 @@ public class MainMenuScreen implements Screen {
         corrigirEscalas(textButtonStyle);
         buttonPlay = new TextButton("Jogar", textButtonStyle);
 
+        Label labelScore = new Label("Best score: " + score, new Label.LabelStyle(font, Color.WHITE));
+
         table.row().expandX().pad(8);
         table.add(title);
         table.row().expandX().pad(8);
         table.add(buttonPlay);
+        table.row().expandX().pad(8);
+        table.add(labelScore);
 
         theme = TacticalInfiltrationAction.assetManager.get("menu-theme.ogg");
 
@@ -115,7 +121,7 @@ public class MainMenuScreen implements Screen {
 
     /**
      * Corrige as escalas dos botões e do título de acordo com o tamanho da janela
-     * TODO: Corrigir arquivos
+     * TODO: Corrigir isso nos arquivos
      */
     private void corrigirEscalas(TextButton.TextButtonStyle textButtonStyle) {
         float btnWidth = Gdx.graphics.getWidth() * 0.1f;

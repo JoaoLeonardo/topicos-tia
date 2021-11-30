@@ -31,7 +31,7 @@ public class EnemyController implements ActionController {
                 return new Enemy(EnemyController.this);
             }
         };
-        currentWaveLength = 1;
+        currentWaveLength = 0;
     }
 
     @Override

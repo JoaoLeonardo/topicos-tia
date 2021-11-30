@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.controller.*;
 import com.gdx.tia.enums.HitAcc;
 import com.gdx.tia.screens.GameScreen;
+import com.gdx.tia.screens.MainMenuScreen;
 import com.gdx.tia.utils.CollisionUtils;
 
 public class Stage extends World {

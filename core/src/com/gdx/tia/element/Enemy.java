@@ -80,10 +80,11 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     }
 
     public void dodgeObject() {
-        // TODO: Verificar se a esquiva causou outra colisão
         Rectangle enemyRectangle = moveRectangle(dodgeDirection.displacementVector);
+
         dodgeTimer += Gdx.graphics.getDeltaTime();
-        this.isDiverting = dodgeTimer < 1;
+        this.isDiverting = GameScreen.ref.hasCollidedWithMap(enemyRectangle) || dodgeTimer < 1;
+
         position.set(enemyRectangle.x, enemyRectangle.y);
         sprite.setPosition(enemyRectangle.x, enemyRectangle.y);
     }

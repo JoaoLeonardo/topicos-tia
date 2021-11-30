@@ -16,7 +16,7 @@ public class TacticalInfiltrationAction extends Game {
     public void create() {
         ref = this;
         assetManager = new AssetManager();
-        setScreen(new LoadingScreen(new MainMenuScreen()));
+        setScreen(new LoadingScreen(new MainMenuScreen(0)));
         // TODO: Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
     }
 
