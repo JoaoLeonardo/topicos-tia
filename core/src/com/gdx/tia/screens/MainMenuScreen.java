@@ -28,6 +28,7 @@ public class MainMenuScreen implements Screen {
     private BitmapFont font;
 
     private Image title;
+    private TextButton.TextButtonStyle buttonStyle;
     private TextButton buttonPlay;
     private Direction titleDirection;
 
@@ -44,7 +45,7 @@ public class MainMenuScreen implements Screen {
         this.score = score;
     }
 
-    public void setScore(int score) { this.score = score; }
+    public void setScore(int score) { this.score = Math.max(this.score, score); }
 
     @Override
     public void show() {
@@ -57,21 +58,21 @@ public class MainMenuScreen implements Screen {
         table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont(Gdx.files.internal("tia.fnt"));
 
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = menuSkin.getDrawable("button");
-        textButtonStyle.down = menuSkin.getDrawable("button-down");
-        textButtonStyle.font = font;
-        textButtonStyle.downFontColor = Color.BLACK;
-        textButtonStyle.overFontColor = Color.BLACK;
-        textButtonStyle.pressedOffsetX = 1;
-        textButtonStyle.pressedOffsetX = -1;
+        buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.up = menuSkin.getDrawable("button");
+        buttonStyle.down = menuSkin.getDrawable("button-down");
+        buttonStyle.font = font;
+        buttonStyle.downFontColor = Color.BLACK;
+        buttonStyle.overFontColor = Color.BLACK;
+        buttonStyle.pressedOffsetX = 1;
+        buttonStyle.pressedOffsetX = -1;
 
         title = new Image(menuSkin.getDrawable("menu-painted"));
         titleTimer = 0;
         titleDirection = Direction.UP;
 
-        corrigirEscalas(textButtonStyle);
-        buttonPlay = new TextButton("Jogar", textButtonStyle);
+        corrigirEscalas();
+        buttonPlay = new TextButton("Jogar", buttonStyle);
 
         Label labelScore = new Label("Best score: " + score, new Label.LabelStyle(font, Color.WHITE));
 
@@ -123,16 +124,16 @@ public class MainMenuScreen implements Screen {
      * Corrige as escalas dos botões e do título de acordo com o tamanho da janela
      * TODO: Corrigir isso nos arquivos
      */
-    private void corrigirEscalas(TextButton.TextButtonStyle textButtonStyle) {
+    private void corrigirEscalas() {
         float btnWidth = Gdx.graphics.getWidth() * 0.1f;
         float btnHeight = btnWidth / 2;
-        textButtonStyle.up.setMinWidth(btnWidth);
-        textButtonStyle.up.setMinHeight(btnHeight);
-        textButtonStyle.down.setMinWidth(btnWidth);
-        textButtonStyle.down.setMinHeight(btnHeight);
+        buttonStyle.up.setMinWidth(btnWidth);
+        buttonStyle.up.setMinHeight(btnHeight);
+        buttonStyle.down.setMinWidth(btnWidth);
+        buttonStyle.down.setMinHeight(btnHeight);
 
-        title.setWidth(Gdx.graphics.getWidth() / 4f);
-        title.setHeight(title.getWidth() / 4f);
+        title.setWidth(Math.min(Gdx.graphics.getWidth() / 4f, 1080));
+        title.setHeight(Math.min(title.getWidth() / 4f, 720));
     }
 
     /**
@@ -175,7 +176,10 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+        menuStage.getViewport().update(width, height, true);
+    }
+
     @Override
     public void pause() { }
     @Override

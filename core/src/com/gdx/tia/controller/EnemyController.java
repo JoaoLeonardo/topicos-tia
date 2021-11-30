@@ -62,6 +62,8 @@ public class EnemyController implements ActionController {
         // adiciona a wave na lista de inimigos ativos
         while (activeEnemies.size() < currentWaveLength) {
             Enemy freshEnemy = enemyPool.obtain();
+            // TODO: Escolher um entre os spawns do mapa
+            // TODO²: Adicionar os spawns via camada no tiled, pelo menos oito
             freshEnemy.init(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             activeEnemies.add(freshEnemy);
         }
