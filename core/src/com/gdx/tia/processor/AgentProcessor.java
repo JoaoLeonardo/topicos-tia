@@ -27,8 +27,10 @@ public class AgentProcessor implements InputProcessor {
 
     private Direction mouseDirection;
 
-    public AgentProcessor(int initialX, int initialY, AgentController agentController) {
-        this.position = new Vector2(initialX, initialY);
+    public AgentProcessor(AgentController agentController) {
+        Rectangle spawn = GameScreen.ref.getPlayerSpawn().getRectangle();
+
+        this.position = new Vector2(spawn.x, spawn.y);
         this.movementDirection = new Vector2(Direction.HALT.displacementVector);
         this.agentController = agentController;
     }

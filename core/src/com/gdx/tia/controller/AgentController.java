@@ -22,10 +22,7 @@ public class AgentController implements ActionController {
 
     @Override
     public void create() {
-        int xCenter = (int) GameScreen.ref.getScreenCenter().x;
-        int yCenter = (int) GameScreen.ref.getScreenCenter().y;
-
-        agentProcessor = new AgentProcessor(xCenter, yCenter, this);
+        agentProcessor = new AgentProcessor(this);
         Gdx.input.setInputProcessor(agentProcessor);
         setAgentSprite(Direction.RIGHT.name());
     }

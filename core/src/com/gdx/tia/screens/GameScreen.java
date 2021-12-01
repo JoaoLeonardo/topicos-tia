@@ -26,7 +26,9 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap map;
-    MapObjects objects;
+    private MapObjects objects;
+    private MapObjects enemySpawn;
+    private RectangleMapObject playerSpawn;
 
     private World gameWorld;
 
@@ -43,7 +45,11 @@ public class GameScreen implements Screen {
     public void show() {
         camera = new OrthographicCamera();
         map = new TmxMapLoader().load("facility-1-1.tmx");
+
         objects = map.getLayers().get(1).getObjects();
+        enemySpawn = map.getLayers().get(3).getObjects();
+        playerSpawn = map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class).get(0);
+
         renderer = new OrthogonalTiledMapRenderer(map);
         screenCenter = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
 
@@ -120,4 +126,7 @@ public class GameScreen implements Screen {
         TacticalInfiltrationAction.assetManager.load("bullet.png", Texture.class);
     }
 
+    public RectangleMapObject getPlayerSpawn() { return playerSpawn; }
+
+    public MapObjects getEnemySpawn() { return enemySpawn; }
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.gdx.tia.controller.*;
 import com.gdx.tia.enums.HitAcc;
 import com.gdx.tia.screens.GameScreen;
-import com.gdx.tia.screens.MainMenuScreen;
 import com.gdx.tia.utils.CollisionUtils;
 
 public class Stage extends World {
@@ -51,7 +50,8 @@ public class Stage extends World {
     public boolean hasCollidedWithAliveEntity(Bullet bullet) {
         if (bullet.boundByPlayer) {
             for (Enemy enemy : enemyController.getActiveEnemies()) {
-                if (CollisionUtils.checkHit(bullet.getBulletSprite(), enemy, HitAcc.LOOSE)) return true;
+                if (CollisionUtils.checkHit(bullet.getBulletSprite(), enemy, HitAcc.LOOSE))
+                    return true;
             }
         } else {
             Agent player = agentController.getAgent();

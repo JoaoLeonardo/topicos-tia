@@ -3,8 +3,13 @@ package com.gdx.tia.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.gdx.tia.element.Enemy;
+import com.gdx.tia.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,15 +61,18 @@ public class EnemyController implements ActionController {
     }
 
     public void spawnNewWave() {
-        // incrementa o número da wave
+        Array<RectangleMapObject> spawnList = GameScreen.ref.getEnemySpawn().getByType(RectangleMapObject.class);
+
+        // incrementa o número da wave (se necessário)
         if (currentWaveLength < MAX_WAVE_LENGTH) this.currentWaveLength++;
 
         // adiciona a wave na lista de inimigos ativos
         while (activeEnemies.size() < currentWaveLength) {
             Enemy freshEnemy = enemyPool.obtain();
-            // TODO: Escolher um entre os spawns do mapa
-            // TODO²: Adicionar os spawns via camada no tiled, pelo menos oito
-            freshEnemy.init(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            RectangleMapObject spawn = spawnList.random();
+            spawnList.removeValue(spawn, true);
+
+            freshEnemy.init(spawn.getRectangle().x, spawn.getRectangle().y);
             activeEnemies.add(freshEnemy);
         }
     }
