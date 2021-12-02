@@ -154,4 +154,8 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
         alive = false;
     }
 
+    public void dispose() {
+        particleEffect.dispose();
+    }
+
 }

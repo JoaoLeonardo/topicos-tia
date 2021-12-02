@@ -15,7 +15,6 @@ public class SpeechUtils {
 
     private static int BUBBLE_PADDING = 16;
     private static int BUBBLE_HALF_PADDING = 8;
-    private static int BUBBLE_HEIGHT = 32;
 
     private NinePatch textBubblePatch;
     private GlyphLayout glyphLayout;
