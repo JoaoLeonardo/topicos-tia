@@ -16,6 +16,7 @@ import java.util.List;
 public class EnemyController implements ActionController {
 
     public static EnemyController ref;
+
     public TextureAtlas enemyAtlas;
     public Sound gunshotSound;
 
@@ -29,7 +30,9 @@ public class EnemyController implements ActionController {
     @Override
     public void create() {
         ref = this;
+
         enemyAtlas = new TextureAtlas("enemy.txt");
+
         enemyPool = new Pool<Enemy>() {
             @Override
             protected Enemy newObject() {
@@ -37,6 +40,7 @@ public class EnemyController implements ActionController {
             }
         };
         currentWaveLength = 0;
+
         gunshotSound = TacticalInfiltrationAction.assetManager.get("enemy-gunshot.ogg", Sound.class);
     }
 
@@ -48,12 +52,16 @@ public class EnemyController implements ActionController {
 
     private void renderWave(Batch batch) {
         for (int i = 0; i < activeEnemies.size(); i++) {
-            if (activeEnemies.get(i).alive) {
-                // renderiza o inimigo
-                activeEnemies.get(i).update();
+            Enemy activeEnemy = activeEnemies.get(i);
 
-                if (!activeEnemies.get(i).hasBeenHit) activeEnemies.get(i).getSprite().draw(batch);
-                else activeEnemies.get(i).hasBeenHit = false;
+            if (activeEnemy.alive) {
+                // renderiza o inimigo
+                activeEnemy.update();
+
+                if (!activeEnemy.hasBeenHit) activeEnemy.getSprite().draw(batch);
+                else activeEnemy.hasBeenHit = false;
+            } else if (activeEnemy.particleTimer != 0) {
+                activeEnemy.playParticleEffect(batch);
             } else {
                 // libera o inimigo da pool/lista de ativos
                 enemyPool.free(this.activeEnemies.remove(i));

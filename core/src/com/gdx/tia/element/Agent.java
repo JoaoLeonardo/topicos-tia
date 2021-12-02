@@ -49,7 +49,7 @@ public class Agent extends AliveEntity {
 
     public void tradeScore() {
         if (canTradeScore) {
-            score -= 200;
+            score -= 100;
             healthbar++;
             canTradeScore = false;
         }

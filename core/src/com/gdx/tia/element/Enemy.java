@@ -1,6 +1,8 @@
 package com.gdx.tia.element;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
@@ -9,6 +11,8 @@ import com.gdx.tia.controller.EnemyController;
 import com.gdx.tia.enums.Direction;
 import com.gdx.tia.screens.GameScreen;
 import com.gdx.tia.utils.CollisionUtils;
+
+import java.util.Random;
 
 public class Enemy extends AliveEntity implements Pool.Poolable {
 
@@ -24,14 +28,29 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     private boolean isDiverting;
     private float dodgeTimer;
 
+    private float gunTimerMax;
     private float gunTimer;
 
-    public Enemy() { reset(); }
+    private Random random;
+
+    private ParticleEffect particleEffect;
+    public float particleTimer;
+
+    public Enemy() {
+        particleEffect = new ParticleEffect();
+        particleEffect.load(Gdx.files.internal("enemy-hit.p"), Gdx.files.internal(""));
+        particleEffect.start();
+        random = new Random();
+
+        reset();
+    }
 
     public void init(float initialX, float initialY) {
         sprite = EnemyController.ref.enemyAtlas.createSprite(Direction.HALT.name());
         position = new Vector2(initialX + 50, initialY);
+        gunTimerMax = random.nextFloat() + 0.5f;
         gunTimer = 0;
+        particleTimer = 0;
         revive();
     }
 
@@ -48,7 +67,7 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
 
             // atira
             gunTimer += Gdx.graphics.getDeltaTime();
-            if (gunTimer > 1) {
+            if (gunTimer > gunTimerMax) {
                 gunTimer = 0;
                 BulletController.ref.addActiveBullet(
                         position, direction, EnemyController.ref.gunshotSound, false
@@ -105,6 +124,28 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
                 yDiff > Y_SENSITIVITY ? 1 : (yDiff < -Y_SENSITIVITY ? -1 : 0)
         );
         return Direction.getDirectionByDisplacement(diffVector);
+    }
+
+    public void startParticleEffect() {
+        particleEffect.reset();
+        particleTimer = 0.1f;
+    }
+
+    public void playParticleEffect(Batch batch) {
+        if (particleTimer > 0) {
+            particleTimer += Gdx.graphics.getDeltaTime();
+            particleEffect.getEmitters().first().setPosition(sprite.getX(), sprite.getY());
+            particleEffect.draw(batch, Gdx.graphics.getDeltaTime());
+
+            if (particleTimer > 1) particleTimer = 0;
+        }
+    }
+
+    @Override
+    public void decreaseHealth() {
+        super.decreaseHealth();
+
+        if (!alive) startParticleEffect();
     }
 
     @Override
