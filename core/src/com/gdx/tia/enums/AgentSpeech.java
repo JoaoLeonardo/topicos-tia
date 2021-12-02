@@ -5,7 +5,7 @@ public enum AgentSpeech {
     MGS("You're pretty good..."),
     GTASA("Damn, here we go again..."),
     DD("How quickly the tide turns!"),
-    DD2("Daze. Reeling. About to break...");
+    DD2("Dazed. Reeling. About to break...");
 
     private String description;
 
