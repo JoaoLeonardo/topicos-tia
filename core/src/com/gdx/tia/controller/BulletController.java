@@ -61,7 +61,7 @@ public class BulletController implements ActionController {
 
     public void playVfx(Sound sound) {
         if (sound != null) {
-            long id = sound.play(0.1f);
+            long id = sound.play(0.5f);
             sound.setLooping(id, false);
         }
     }

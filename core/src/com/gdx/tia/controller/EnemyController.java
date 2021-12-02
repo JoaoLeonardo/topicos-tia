@@ -1,13 +1,12 @@
 package com.gdx.tia.controller;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
+import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.element.Enemy;
 import com.gdx.tia.screens.GameScreen;
 
@@ -17,13 +16,14 @@ import java.util.List;
 public class EnemyController implements ActionController {
 
     public static EnemyController ref;
+    public TextureAtlas enemyAtlas;
+    public Sound gunshotSound;
 
     private final int MAX_WAVE_LENGTH = 8;
 
     private final ArrayList<Enemy> activeEnemies = new ArrayList<>();
     private Pool<Enemy> enemyPool;
 
-    public TextureAtlas enemyAtlas;
     private int currentWaveLength;
 
     @Override
@@ -33,10 +33,11 @@ public class EnemyController implements ActionController {
         enemyPool = new Pool<Enemy>() {
             @Override
             protected Enemy newObject() {
-                return new Enemy(EnemyController.this);
+                return new Enemy();
             }
         };
         currentWaveLength = 0;
+        gunshotSound = TacticalInfiltrationAction.assetManager.get("enemy-gunshot.ogg", Sound.class);
     }
 
     @Override

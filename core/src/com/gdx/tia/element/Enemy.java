@@ -20,21 +20,16 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
 
     private Vector2 position;
 
-    private final EnemyController enemyController;
-
     private Direction dodgeDirection;
     private boolean isDiverting;
     private float dodgeTimer;
 
     private float gunTimer;
 
-    public Enemy(EnemyController enemyController) {
-        this.enemyController = enemyController;
-        reset();
-    }
+    public Enemy() { reset(); }
 
     public void init(float initialX, float initialY) {
-        sprite = enemyController.enemyAtlas.createSprite(Direction.HALT.name());
+        sprite = EnemyController.ref.enemyAtlas.createSprite(Direction.HALT.name());
         position = new Vector2(initialX + 50, initialY);
         gunTimer = 0;
         revive();
@@ -45,7 +40,7 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
         Direction direction = getSpriteDirectionRelativeToTarget();
 
         // seta o sprite e a movimentação de acordo com a direção descoberta
-        sprite = enemyController.enemyAtlas.createSprite(direction.name());
+        sprite = EnemyController.ref.enemyAtlas.createSprite(direction.name());
 
         if (!isDiverting) {
             // segue o agente
@@ -55,7 +50,9 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
             gunTimer += Gdx.graphics.getDeltaTime();
             if (gunTimer > 1) {
                 gunTimer = 0;
-                BulletController.ref.addActiveBullet(position, direction, null, false);
+                BulletController.ref.addActiveBullet(
+                        position, direction, EnemyController.ref.gunshotSound, false
+                );
             }
         } else {
             // desvia do objeto o agente
@@ -100,8 +97,8 @@ public class Enemy extends AliveEntity implements Pool.Poolable {
     }
 
     public Direction getSpriteDirectionRelativeToTarget() {
-        final float xDiff = position.x - enemyController.getAgentX();
-        final float yDiff = enemyController.getAgentY() - position.y;
+        final float xDiff = position.x - EnemyController.ref.getAgentX();
+        final float yDiff = EnemyController.ref.getAgentY() - position.y;
 
         Vector2 diffVector = new Vector2(
                 xDiff > X_SENSITIVITY ? -1 : (xDiff < -X_SENSITIVITY ? 1 : 0),

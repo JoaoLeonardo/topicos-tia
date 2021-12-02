@@ -92,7 +92,7 @@ public class GameScreen implements Screen {
     public void resume() { }
 
     @Override
-    public void hide() { dispose(); }
+    public void hide() { theme.pause(); }
 
     @Override
     public void dispose() {
@@ -115,13 +115,14 @@ public class GameScreen implements Screen {
         return false;
     }
 
-    private void playTheme() {
+    public void playTheme() {
         long id = theme.play(0.1f);
         theme.setLooping(id, true);
     }
 
     private void loadAssets() {
         TacticalInfiltrationAction.assetManager.load("gunshot.ogg", Sound.class);
+        TacticalInfiltrationAction.assetManager.load("enemy-gunshot.ogg", Sound.class);
         TacticalInfiltrationAction.assetManager.load("stage-music.ogg", Sound.class);
         TacticalInfiltrationAction.assetManager.load("bullet.png", Texture.class);
         TacticalInfiltrationAction.assetManager.load("text-bubble.png", Texture.class);
