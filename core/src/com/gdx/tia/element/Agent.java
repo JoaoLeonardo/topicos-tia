@@ -1,8 +1,11 @@
 package com.gdx.tia.element;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.tia.enums.AgentSpeech;
 import com.gdx.tia.screens.MainMenuScreen;
+import com.gdx.tia.utils.SpeechUtils;
 
 public class Agent extends AliveEntity {
 
@@ -11,9 +14,18 @@ public class Agent extends AliveEntity {
     private int score;
     public boolean canTradeScore;
 
+    private SpeechUtils speechUtils;
+
     public Agent() {
         agentAtlas = new TextureAtlas("agent.txt");
+        speechUtils = new SpeechUtils();
         start();
+    }
+
+    public void setSprite(String region, Vector2 position) {
+        sprite = agentAtlas.createSprite(region);
+        sprite.setPosition(position.x, position.y);
+        sprite.getBoundingRectangle().setPosition(position);
     }
 
     public void start() {
@@ -21,6 +33,7 @@ public class Agent extends AliveEntity {
         score = 0;
         alive = true;
         canTradeScore = false;
+        speechUtils.reset();
     }
 
     public void decreaseHealth() {
@@ -42,15 +55,15 @@ public class Agent extends AliveEntity {
         }
     }
 
+    public void speak(Batch batch, Vector2 agentPosition) {
+        if (speechUtils.currentLine == null)
+            speechUtils.currentLine = AgentSpeech.getSpeech(
+                    score, healthbar, speechUtils.hasSpoken, speechUtils.random.nextBoolean()
+            );
+        speechUtils.speak(batch, agentPosition);
+    }
+
     public int getScore() { return score; }
 
-    public void setSprite(String region, Vector2 position) {
-        sprite = agentAtlas.createSprite(region);
-        sprite.setPosition(position.x, position.y);
-        sprite.getBoundingRectangle().setPosition(position);
-    }
-
-    public void dispose() {
-        agentAtlas.dispose();
-    }
+    public void dispose() { agentAtlas.dispose(); }
 }

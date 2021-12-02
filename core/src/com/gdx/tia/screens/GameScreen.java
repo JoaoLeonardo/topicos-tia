@@ -124,6 +124,7 @@ public class GameScreen implements Screen {
         TacticalInfiltrationAction.assetManager.load("gunshot.ogg", Sound.class);
         TacticalInfiltrationAction.assetManager.load("stage-music.ogg", Sound.class);
         TacticalInfiltrationAction.assetManager.load("bullet.png", Texture.class);
+        TacticalInfiltrationAction.assetManager.load("text-bubble.png", Texture.class);
     }
 
     public RectangleMapObject getPlayerSpawn() { return playerSpawn; }
