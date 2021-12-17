@@ -34,6 +34,8 @@ public class Bullet implements Pool.Poolable {
     }
 
     public void init(float initialX, float initialY, Direction direction, boolean shotByPlayer) {
+        if (direction == null) direction = Direction.RIGHT;
+
         active = true;
         boundByPlayer = shotByPlayer;
 

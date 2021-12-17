@@ -46,8 +46,8 @@ public class HudController implements ActionController {
     }
 
     public void drawScore(Batch batch) {
-        final float onCameraMaxX =  GameScreen.ref.getCamera().position.x + GameScreen.ref.getScreenCenter().x;
-        final float onCameraMaxY =  GameScreen.ref.getCamera().position.y + GameScreen.ref.getScreenCenter().y;
+        final float onCameraMaxX = GameScreen.ref.getCamera().position.x + GameScreen.ref.getScreenCenter().x;
+        final float onCameraMaxY = GameScreen.ref.getCamera().position.y + GameScreen.ref.getScreenCenter().y;
 
         Agent agent = AgentController.ref.getAgent();
         String score = (agent.canTradeScore ? "(Q) " : "") + agent.getScore() + "";

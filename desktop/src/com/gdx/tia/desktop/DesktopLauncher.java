@@ -9,8 +9,9 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Tactical Infiltration Action";
 		config.useGL30 = true;
-		config.width = 1080;
+		config.width = 1024;
 		config.height = 720;
+		//config.fullscreen = true;
 		new LwjglApplication(new TacticalInfiltrationAction(), config);
 	}
 }
