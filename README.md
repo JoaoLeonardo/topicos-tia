@@ -18,7 +18,7 @@ Contains five main features:
 
 You can check out a gameplay demonstration [here](https://www.youtube.com/watch?v=T-C4wldxsbU).
 
-If, for whatever reasonm you intend to play it without running the code, the .jar can be downloaded [here](https://drive.google.com/file/d/1E1hkhwQ0f1FVBrc8avHkuKjNzwywOrOH/view).
+If, for whatever reason, you intend to play it without running the code, the .jar can be downloaded [here](https://drive.google.com/file/d/1E1hkhwQ0f1FVBrc8avHkuKjNzwywOrOH/view).
 
 # Structure
 Most of the aforementioned features are divided between three files: An entity, a controller, and a processor (if they receive inputs from the player). 
