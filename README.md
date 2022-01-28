@@ -15,7 +15,8 @@ Contains five main features:
   4. Enemy bots (no high spectations, they're kinda dumb so be nice to them);
   5. Fully functional hud (healthbar and points), not made with best practices in mind. If you're looking for anything more advanced, using [GlyphLayout](https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/graphics/g2d/GlyphLayout.html) 
   is highly advisable.
-You can check out a demonstration [here](https://www.youtube.com/watch?v=T-C4wldxsbU).
+
+You can check out a gameplay demonstration [here](https://www.youtube.com/watch?v=T-C4wldxsbU).
 
 If, for whatever reasonm you intend to play it without running the code, the .jar can be downloaded [here](https://drive.google.com/file/d/1E1hkhwQ0f1FVBrc8avHkuKjNzwywOrOH/view).
 
