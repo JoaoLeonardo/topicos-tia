@@ -22,7 +22,7 @@ You can check out a gameplay demonstration [here](https://www.youtube.com/watch?
 If, for whatever reason, you intend to play it without running the code, the .jar can be downloaded [here](https://drive.google.com/file/d/1E1hkhwQ0f1FVBrc8avHkuKjNzwywOrOH/view).
 
 # Structure
-Most of the aforementioned features are divided between three files: An entity, a controller, and a processor (if they receive inputs from the player). 
+Most of the aforementioned features are divided between three files each: An entity, a controller, and a processor (if they receive inputs from the player). 
 There are also some util files for collison, a very handy direction enum, and some custom implementations of things Scene2D can do better for you 
 (wish I knew it existed), such as the Stage and World classes.
 
