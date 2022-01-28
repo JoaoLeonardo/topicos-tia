@@ -25,7 +25,7 @@ Most of the aforementioned features are divided between three files: An entity, 
 There are also some util files for collison, a very handy direction enum, and some custom implementations of things Scene2D can do better for you 
 (wish I knew it existed), such as the Stage and World classes.
 
-If you pay close atention it's noticeable I inteded to implement multiple stages, this ideia was dropped due to deadlines. and at time of writing I still haven't
+If you pay close atention it's noticeable I inteded to implement multiple stages, this ideia was dropped due to deadlines, and at time of writing I still haven't
 implemented it. The relation Game(screen)-World-Stage is where this was suppossed to be done, meaning that we would have many different implementations of the Stage
 class. If you're interested, feel free to modify it.
 
