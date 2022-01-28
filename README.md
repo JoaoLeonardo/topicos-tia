@@ -1,7 +1,7 @@
 # Tactical Infiltration Action
 Simple top-down wave based shooter, envisioned as a stealth game, however, due to budge and time constraints the guards have already spotted you (tbf they're orange due to following a carrot-based diet, 100% the lore reason for their inhuman eyesight), so good luck surviving it. Originaly intend only as an university project, but I might still add/update a few things, no promises tho.
 
-Everything necessary to run it should be included, nevertheless, it was made using some applications external to Java/LibGDX, manly TexturePacker and Tiled(map).
+Everything necessary to run it should be included, nevertheless, textures and maps were packed/made using some applications external to Java/LibGDX, manly TexturePacker and Tiled(map).
 
 Uses LibGDX, so it's highly advisable to use their [wiki](https://libgdx.com/wiki/) as a guide.
 
