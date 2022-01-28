@@ -9,7 +9,7 @@ Uses LibGDX, so it's highly advisable to use their [wiki](https://libgdx.com/wik
 ![<insert metal gear joke here>](menu-painted.png "<insert metal gear joke here>")
 
 Contains five main features:
-  1. Top-down control with aim in eight directions (migth be a bit wonky on bigger screens, can be ajusted through code);
+  1. Top-down controls with aim in eight directions (migth be a bit wonky on bigger screens, can be ajusted through code);
   2. Tiled map with custom made collision. Please, if possbile, use Box2d, it will save you a lot of trouble;
   3. Separate screens for each "game status" (menu, loading, and game);
   4. Enemy bots (no high spectations, they're kinda dumb so be nice to them);
