@@ -27,7 +27,7 @@ There are also some util files for collison, a very handy direction enum, and so
 
 If you pay close atention it's noticeable I inteded to implement multiple stages, this ideia was dropped due to deadlines. and at time of writing I still haven't
 implemented it. The relation Game(screen)-World-Stage is where this was suppossed to be done, meaning that we would have many different implementations of the Stage
-class, if you're interested, feel free to modify it.
+class. If you're interested, feel free to modify it.
 
 # Conclusion
 Most if not all of the code documentation was written in portuguese, however, english was used for everything else, so it should be intelligible if you made it here.
