@@ -6,7 +6,7 @@ Everything necessary to run it should be included, but it was also made using so
 Uses LibGDX, so it's highly advisable to use their [wiki](https://libgdx.com/wiki/) as a guide.
 
 # Rundown
-![<insert metal gear joke here>](menu-painted.png)
+![<insert metal gear joke here>](menu-painted.png "insert metal gear joke here")
 
 Contains five main features:
   1. Top-down control with aim in eight directions (migth be a bit wonky on bigger screens, can be ajusted through code);
