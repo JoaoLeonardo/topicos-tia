@@ -1,5 +1,5 @@
 # Tactical Infiltration Action
-Simple top-down wave based shooter, invisioned as a stealth game, but due to budge and time constraints the guards have already spotted you so good look surviving it. Originaly intend only as an university project but I might still add/update a few things, no promises tho.
+Simple top-down wave based shooter, invisioned as a stealth game, but due to budge and time constraints the guards have already spotted you, so good luck surviving it. Originaly intend only as an university project but I might still add/update a few things, no promises tho.
 
 Everything necessary to run it should be included, but it was also made using some external applications, manly TexturePacker and Tiled(map).
 
