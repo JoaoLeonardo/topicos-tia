@@ -8,13 +8,14 @@ Uses LibGDX, so it's highly advisable to use their [wiki](https://libgdx.com/wik
 # Rundown
 ![<insert metal gear joke here>](menu-painted.png "<insert metal gear joke here>")
 
-Contains five main features:
+Contains six main features:
   1. Top-down controls with aim in eight directions (might be a bit wonky on bigger screens, can be ajusted through code);
   2. Tiled map with custom made collision. Please, if possbile, use Box2d, it will save you a lot of trouble;
   3. Separate screens for each "game status" (menu, loading, and game);
   4. Enemy bots (no high spectations, they're kinda dumb so be nice to them);
   5. Fully functional hud (healthbar and points), not made with best practices in mind. If you're looking for anything more advanced, using [GlyphLayout](https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/graphics/g2d/GlyphLayout.html) 
   is highly advisable.
+  6. A (mildly) funny jumping title.
 
 You can check out a gameplay demonstration [here](https://www.youtube.com/watch?v=T-C4wldxsbU).
 
