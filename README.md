@@ -3,7 +3,7 @@ Simple top-down wave based shooter, envisioned as a stealth game, however, due t
 
 Everything necessary to run it should be included, nevertheless, textures and maps were packed/made using some applications external to Java/LibGDX, manly TexturePacker and Tiled(map).
 
-Uses LibGDX, so it's highly advisable to use their [wiki](https://libgdx.com/wiki/) as a guide.
+As mentioned, the project uses LibGDX, so it's highly advisable to use their [wiki](https://libgdx.com/wiki/) as a guide.
 
 # Rundown
 ![<insert metal gear joke here>](menu-painted.png "<insert metal gear joke here>")
