@@ -16,10 +16,6 @@ public class AgentProcessor implements InputProcessor {
 
     private final int MOVEMENT_SPEED = 200;
 
-    // espaço entre uma direção e outra (de 32 à -32)
-    private final int SENSITIVITY_X = 32;
-    private final int SENSITIVITY_Y = 32;
-
     private final AgentController agentController;
 
     private final Vector2 movementDirection;
@@ -92,8 +88,8 @@ public class AgentProcessor implements InputProcessor {
         final float yCenter = GameScreen.ref.getScreenCenter().y;
 
         Vector2 diffVector = new Vector2(
-                screenX > (xCenter + SENSITIVITY_X) ? 1 : (screenX < (xCenter - SENSITIVITY_X) ? -1 : 0),
-                screenY < (yCenter - SENSITIVITY_Y) ? 1 : (screenY > (yCenter + SENSITIVITY_Y) ? -1 : 0)
+                screenX > (xCenter + getMouseInterval().x) ? 1 : (screenX < (xCenter - getMouseInterval().x) ? -1 : 0),
+                screenY < (yCenter - getMouseInterval().y) ? 1 : (screenY > (yCenter + getMouseInterval().y) ? -1 : 0)
         );
 
         mouseDirection = Direction.getDirectionByDisplacement(diffVector);
@@ -124,5 +120,7 @@ public class AgentProcessor implements InputProcessor {
     private Sound getGunshotFx() {
         return TacticalInfiltrationAction.assetManager.get("gunshot.ogg");
     }
+
+    private Vector2 getMouseInterval() { return GameScreen.ref.getMouseInterval(); }
 
 }

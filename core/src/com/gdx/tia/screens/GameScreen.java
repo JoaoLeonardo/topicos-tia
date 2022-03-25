@@ -18,10 +18,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.tia.TacticalInfiltrationAction;
 import com.gdx.tia.element.Stage;
 import com.gdx.tia.element.World;
+import com.gdx.tia.enums.Direction;
 
 public class GameScreen implements Screen {
 
     public static GameScreen ref;
+
+    private final int DIR_LEN2 = Direction.values().length * 2;
 
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
@@ -33,6 +36,7 @@ public class GameScreen implements Screen {
     private World gameWorld;
 
     private Vector2 screenCenter;
+    private Vector2 mDirInterval;
 
     private Sound theme;
 
@@ -52,6 +56,7 @@ public class GameScreen implements Screen {
 
         renderer = new OrthogonalTiledMapRenderer(map);
         screenCenter = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
+        mDirInterval = new Vector2();
 
         gameWorld = new Stage(renderer.getBatch(), this);
         gameWorld.create();
@@ -83,6 +88,7 @@ public class GameScreen implements Screen {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.update();
+        updateInterval();
     }
 
     @Override
@@ -115,6 +121,13 @@ public class GameScreen implements Screen {
         return false;
     }
 
+    public void updateInterval() {
+        // intervalo do mouse entre uma direção e outra = L / Nd * 2
+        // onde L = Largura do eixo e Nd = número de direções
+        mDirInterval.x = (float) Gdx.graphics.getWidth() / DIR_LEN2;
+        mDirInterval.y = (float) Gdx.graphics.getHeight() / DIR_LEN2;
+    }
+
     public void playTheme() {
         long id = theme.play(0.1f);
         theme.setLooping(id, true);
@@ -131,4 +144,6 @@ public class GameScreen implements Screen {
     public RectangleMapObject getPlayerSpawn() { return playerSpawn; }
 
     public MapObjects getEnemySpawn() { return enemySpawn; }
+
+    public Vector2 getMouseInterval() { return mDirInterval; }
 }
